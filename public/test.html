@@ -1,0 +1,30 @@
+<html>
+<body>
+
+
+
+
+
+
+</body>
+
+<script src="/js/kinetic.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(function(){
+
+	var socket = io.connect('http://starsystemgen:8000/');
+
+  socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
+    socket.emit('ferret', 'tobi', function (data) {
+      console.log(data); // data will be 'woot'
+    });
+  });
+
+
+});
+</script>
+
+
+</html>
