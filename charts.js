@@ -1,39 +1,41 @@
-var hit_location_chart = {
-    throw: {
-        die_sides: 6,
-        number_of_dice: 2,
-        modifier: 0
+exports.hit_location_chart = {
+	"chart_type": "random",
+    "throw": {
+        "die_sides": 6,
+        "number_of_dice": 2,
+        "modifier": 0
     },
-    results: [
+    "results": [
         {
-            rolls: [2],
-            result: "Critical Hit",
-            subchart: {
-                throw: {
-                    die_sides: 6,
-                    number_of_dice: 1,
-                    modifier: 0
+            "rolls": [2],
+            "result": "Critical Hit",
+            "subchart": {
+				"chart_type": "random",
+                "throw": {
+                    "die_sides": 6,
+                    "number_of_dice": 1,
+                    "modifier": 0
                 },
-                results: [
-                    { rolls: [1], result: "Leg" },
-                    { rolls: [2], result: "Arm" },
-                    { rolls: [3,4], result: "Chest" },
-                    { rolls: [5], result: "Abdomen" },
-                    { rolls: [6], result: "Head" }
+                "results": [
+                    { "rolls": [1], "result": "Leg" },
+                    { "rolls": [2], "result": "Arm" },
+                    { "rolls": [3,4], "result": "Chest" },
+                    { "rolls": [5], "result": "Abdomen" },
+                    { "rolls": [6], "result": "Head" }
                 ]
             }
         },
         {
-            //rolls: [3,4,5,6,7,8,9,10,11,12],
-            min_roll: 3,
-            //max_roll: 12,
-            result: "Not a critical hit"
+            //"rolls": [3,4,5,6,7,8,9,10,11,12],
+            "min_roll": 3,
+            //"max_roll": 12,
+            "result": "Not a critical hit"
         }
     ]
-}
+};
 
 
-var systemType = {
+exports.systemType = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -42,23 +44,23 @@ var systemType = {
     },
     "results": [
 		{
-			"min_roll": 3;
-			"max_roll": 10;
+			"min_roll": 3,
+			"max_roll": 10,
 			"result": {
 				"type": "single",
 				"numberOfStars": 1
 			}
 		},
 		{
-			"min_roll": 11;
-			"max_roll": 15;
+			"min_roll": 11,
+			"max_roll": 15,
 			"result": {
 				"type": "binary",
 				"numberOfStars": 2
 			}
 		},
 		{
-			"min_roll": 16;
+			"min_roll": 16,
 			"result": {
 				"type": "trinary",
 				"numberOfStars": 3
@@ -67,114 +69,258 @@ var systemType = {
 	]
 };
 					
-var starType = {
+exports.starType = {
+	"chart_type": "random",
+    "throw": {
+        "die_sides": 6,
+        "number_of_dice": 3,
+        "modifier": 0
+    },
 	"results": [
 		{
-			"tableKey": 0, "mass": 0.10, "spectralClass": "M7", "temp": 3100, "lMin": 0.0012, "lMax": 0.0012, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 14, "roll1max": 100, "roll2min": 3, "roll2max": 18
+			"rolls": [3],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"max_roll": 10,
+						"result": { "tableKey": 33, "mass": 2.00, "spectralClass": "A5", "temp": 8200, "lMin": 16.00, "lMax": 20.00, "mSpan": 1.3, "sSpan": 0.2, "gSpan": 0.1 }
+					},
+					{
+						"min_roll": 11,
+						"result": { "tableKey": 32, "mass": 1.90, "spectralClass": "A6", "temp": 8000, "lMin": 13.00, "lMax": 16.00, "mSpan": 1.5, "sSpan": 0.2, "gSpan": 0.1 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 1, "mass": 0.15, "spectralClass": "M6", "temp": 3200, "lMin": 0.0036, "lMax": 0.0036, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 13, "roll1max": 13, "roll2min": 3, "roll2max": 18
+			"rolls": [4],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"max_roll": 8,
+						"result": { "tableKey": 31, "mass": 1.80, "spectralClass": "A7", "temp": 7800, "lMin": 11.00, "lMax": 13.00, "mSpan": 1.8, "sSpan": 0.3, "gSpan": 0.2 }
+					},
+					{
+						"rolls": [9,10,11],
+						"result": { "tableKey": 30, "mass": 1.70, "spectralClass": "A9", "temp": 7500, "lMin": 8.60, "lMax": 10.00, "mSpan": 2.1, "sSpan": 0.3, "gSpan": 0.2 }
+					},
+					{
+						"min_roll": 12,
+						"result": { "tableKey": 29, "mass": 1.60, "spectralClass": "F0", "temp": 7300, "lMin": 6.70, "lMax": 8.20, "mSpan": 2.5, "sSpan": 0.4, "gSpan": 0.2 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 2, "mass": 0.20, "spectralClass": "M5", "temp": 3200, "lMin": 0.0079, "lMax": 0.0079, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 12, "roll1max": 12, "roll2min": 3, "roll2max": 18
+			"rolls": [5],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"rolls": [3,4,5,6,7],
+						"result": { "tableKey": 28, "mass": 1.50, "spectralClass": "F2", "temp": 7000, "lMin": 5.10, "lMax": 6.50, "mSpan": 3.0, "sSpan": 0.5, "gSpan": 0.3 }
+					},
+					{
+						"rolls": [8,9,10],
+						"result": { "tableKey": 27, "mass": 1.45, "spectralClass": "F3", "temp": 6900, "lMin": 4.30, "lMax": 5.70, "mSpan": 3.3, "sSpan": 0.5, "gSpan": 0.3 }
+					},
+					{
+						"rolls": [11,12],
+						"result": { "tableKey": 26, "mass": 1.40, "spectralClass": "F4", "temp": 6700, "lMin": 3.70, "lMax": 5.10, "mSpan": 3.7, "sSpan": 0.6, "gSpan": 0.4 }
+					},
+					{
+						"rolls": [13,14,15,16,17,18],
+						"result": { "tableKey": 25, "mass": 1.35, "spectralClass": "F5", "temp": 6600, "lMin": 3.10, "lMax": 4.50, "mSpan": 4.1, "sSpan": 0.6, "gSpan": 0.4 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 3, "mass": 0.25, "spectralClass": "M4", "temp": 3300, "lMin": 0.015, "lMax": 0.015, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 11, "roll1max": 11, "roll2min": 3, "roll2max": 18
+			"rolls": [6],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"rolls": [3,4,5,6,7],
+						"result": { "tableKey": 24, "mass": 1.30, "spectralClass": "F6", "temp": 6500, "lMin": 2.50, "lMax": 3.90, "mSpan": 4.6, "sSpan": 0.7, "gSpan": 0.4 }
+					},
+					{
+						"rolls": [8,9],
+						"result": { "tableKey": 23, "mass": 1.25, "spectralClass": "F7", "temp": 6400, "lMin": 2.10, "lMax": 3.50, "mSpan": 5.2, "sSpan": 0.8, "gSpan": 0.5 }
+					},
+					{
+						"rolls": [10],
+						"result": { "tableKey": 22, "mass": 1.20, "spectralClass": "F8", "temp": 6300, "lMin": 1.70, "lMax": 3.00, "mSpan": 5.9, "sSpan": 0.9, "gSpan": 0.6 }
+					},
+					{
+						"rolls": [11,12],
+						"result": { "tableKey": 21, "mass": 1.15, "spectralClass": "F9", "temp": 6100, "lMin": 1.40, "lMax": 2.60, "mSpan": 6.7, "sSpan": 1.0, "gSpan": 0.6 }
+					},
+					{
+						"rolls": [13,14,15,16,17,18],
+						"result": { "tableKey": 20, "mass": 1.10, "spectralClass": "G0", "temp": 6000, "lMin": 1.10, "lMax": 2.20, "mSpan": 7.7, "sSpan": 1.2, "gSpan": 0.7 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 4, "mass": 0.30, "spectralClass": "M4", "temp": 3300, "lMin": 0.024, "lMax": 0.024, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 10, "roll1max": 10, "roll2min": 12, "roll2max": 18
+			"rolls": [7],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				results: [
+					{
+						"rolls": [3,4,5,6,7],
+						"result": { "tableKey": 19, "mass": 1.05, "spectralClass": "G1", "temp": 5900, "lMin": 0.87, "lMax": 1.90, "mSpan": 8.8, "sSpan": 1.4, "gSpan": 0.8 }
+					},
+					{
+						"rolls": [8,9],
+						"result": { "tableKey": 18, "mass": 1.00, "spectralClass": "G2", "temp": 5800, "lMin": 0.68, "lMax": 1.60, "mSpan": 10, "sSpan": 1.6, "gSpan": 1.0 }
+					},
+					{
+						"rolls": [10],
+						"result": { "tableKey": 17, "mass": 0.95, "spectralClass": "G4", "temp": 5700, "lMin": 0.56, "lMax": 1.30, "mSpan": 12, "sSpan": 1.8, "gSpan": 1.1 }
+					},
+					{
+						"rolls": [11,12],
+						"result": { "tableKey": 16, "mass": 0.90, "spectralClass": "G6", "temp": 5500, "lMin": 0.45, "lMax": 1.00, "mSpan": 14, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [13,14,15,16,17,18],
+						"result": { "tableKey": 15, "mass": 0.85, "spectralClass": "G8", "temp": 5400, "lMin": 0.36, "lMax": 0.84, "mSpan": 17, "sSpan": 0, "gSpan": 0 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 5, "mass": 0.35, "spectralClass": "M3", "temp": 3400, "lMin": 0.037, "lMax": 0.037, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 10, "roll1max": 10, "roll2min": 9, "roll2max": 11
+			"rolls": [8],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"rolls": [3,4,5,6,7],
+						"result": { "tableKey": 14, "mass": 0.80, "spectralClass": "K0", "temp": 5200, "lMin": 0.28, "lMax": 0.65, "mSpan": 20, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [8,9],
+						"result": { "tableKey": 13, "mass": 0.75, "spectralClass": "K2", "temp": 4900, "lMin": 0.23, "lMax": 0.48, "mSpan": 24, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [10],
+						"result": { "tableKey": 12, "mass": 0.70, "spectralClass": "K4", "temp": 4600, "lMin": 0.19, "lMax": 0.35, "mSpan": 30, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [11,12],
+						"result": { "tableKey": 11, "mass": 0.65, "spectralClass": "K5", "temp": 4400, "lMin": 0.15, "lMax": 0.25, "mSpan": 37, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [13,14,15,16,17,18],
+						"result": { "tableKey": 10, "mass": 0.60, "spectralClass": "K6", "temp": 4200, "lMin": 0.13, "lMax": 0.20, "mSpan": 42, "sSpan": 0, "gSpan": 0 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 6, "mass": 0.40, "spectralClass": "M2", "temp": 3500, "lMin": 0.054, "lMax": 0.054, "mSpan": 1000, "sSpan": 0, "gSpan": 0, "roll1min": 10, "roll1max": 10, "roll2min": 3, "roll2max": 8
+			"rolls": [9],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"rolls": [3,4,5,6,7,8],
+						"result": { "tableKey": 9, "mass": 0.55, "spectralClass": "K8", "temp": 4000, "lMin": 0.11, "lMax": 0.15, "mSpan": 50, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [9,10,11],
+						"result": { "tableKey": 8, "mass": 0.50, "spectralClass": "M0", "temp": 3800, "lMin": 0.09, "lMax": 0.11, "mSpan": 59, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [12,13,14,15,16,17,18],
+						"result": { "tableKey": 7, "mass": 0.45, "spectralClass": "M1", "temp": 3600, "lMin": 0.07, "lMax": 0.08, "mSpan": 70, "sSpan": 0, "gSpan": 0 }
+					}
+				]
+			}
 		},
 		{
-			"tableKey": 7, "mass": 0.45, "spectralClass": "M1", "temp": 3600, "lMin": 0.07, "lMax": 0.08, "mSpan": 70, "sSpan": 0, "gSpan": 0, "roll1min": 9, "roll1max": 9, "roll2min": 12, "roll2max": 18
+			"rolls": [10],
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{
+						"rolls": [3,4,5,6,7,8],
+						"result": { "tableKey": 6, "mass": 0.40, "spectralClass": "M2", "temp": 3500, "lMin": 0.054, "lMax": 0.054, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [9,10,11],
+						"result": { "tableKey": 5, "mass": 0.35, "spectralClass": "M3", "temp": 3400, "lMin": 0.037, "lMax": 0.037, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+					},
+					{
+						"rolls": [12,13,14,15,16,17,18],
+						"result": { "tableKey": 4, "mass": 0.30, "spectralClass": "M4", "temp": 3300, "lMin": 0.024, "lMax": 0.024, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+					},
+				]
+			}
 		},
 		{
-			"tableKey": 8, "mass": 0.50, "spectralClass": "M0", "temp": 3800, "lMin": 0.09, "lMax": 0.11, "mSpan": 59, "sSpan": 0, "gSpan": 0, "roll1min": 9, "roll1max": 9, "roll2min": 9, "roll2max": 11
+			"rolls": [11],
+			"result": { "tableKey": 3, "mass": 0.25, "spectralClass": "M4", "temp": 3300, "lMin": 0.015, "lMax": 0.015, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
-			"tableKey": 9, "mass": 0.55, "spectralClass": "K8", "temp": 4000, "lMin": 0.11, "lMax": 0.15, "mSpan": 50, "sSpan": 0, "gSpan": 0, "roll1min": 9, "roll1max": 9, "roll2min": 3, "roll2max": 8
+			"rolls": [12],
+			"result": { "tableKey": 2, "mass": 0.20, "spectralClass": "M5", "temp": 3200, "lMin": 0.0079, "lMax": 0.0079, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
-			"tableKey": 10, "mass": 0.60, "spectralClass": "K6", "temp": 4200, "lMin": 0.13, "lMax": 0.20, "mSpan": 42, "sSpan": 0, "gSpan": 0, "roll1min": 8, "roll1max": 8, "roll2min": 13, "roll2max": 18
+			"rolls": [13],
+			"result": { "tableKey": 1, "mass": 0.15, "spectralClass": "M6", "temp": 3200, "lMin": 0.0036, "lMax": 0.0036, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
-			"tableKey": 11, "mass": 0.65, "spectralClass": "K5", "temp": 4400, "lMin": 0.15, "lMax": 0.25, "mSpan": 37, "sSpan": 0, "gSpan": 0, "roll1min": 8, "roll1max": 8, "roll2min": 11, "roll2max": 12
-		},
-		{
-			"tableKey": 12, "mass": 0.70, "spectralClass": "K4", "temp": 4600, "lMin": 0.19, "lMax": 0.35, "mSpan": 30, "sSpan": 0, "gSpan": 0, "roll1min": 8, "roll1max": 8, "roll2min": 10, "roll2max": 10
-		},
-		{
-			"tableKey": 13, "mass": 0.75, "spectralClass": "K2", "temp": 4900, "lMin": 0.23, "lMax": 0.48, "mSpan": 24, "sSpan": 0, "gSpan": 0, "roll1min": 8, "roll1max": 8, "roll2min": 8, "roll2max": 9
-		},
-		{
-			"tableKey": 14, "mass": 0.80, "spectralClass": "K0", "temp": 5200, "lMin": 0.28, "lMax": 0.65, "mSpan": 20, "sSpan": 0, "gSpan": 0, "roll1min": 8, "roll1max": 8, "roll2min": 3, "roll2max": 7
-		},
-		{
-			"tableKey": 15, "mass": 0.85, "spectralClass": "G8", "temp": 5400, "lMin": 0.36, "lMax": 0.84, "mSpan": 17, "sSpan": 0, "gSpan": 0, "roll1min": 7, "roll1max": 7, "roll2min": 13, "roll2max": 18
-		},
-		{
-			"tableKey": 16, "mass": 0.90, "spectralClass": "G6", "temp": 5500, "lMin": 0.45, "lMax": 1.00, "mSpan": 14, "sSpan": 0, "gSpan": 0, "roll1min": 7, "roll1max": 7, "roll2min": 11, "roll2max": 12
-		},
-		{
-			"tableKey": 17, "mass": 0.95, "spectralClass": "G4", "temp": 5700, "lMin": 0.56, "lMax": 1.30, "mSpan": 12, "sSpan": 1.8, "gSpan": 1.1, "roll1min": 7, "roll1max": 7, "roll2min": 10, "roll2max": 10
-		},
-		{
-			"tableKey": 18, "mass": 1.00, "spectralClass": "G2", "temp": 5800, "lMin": 0.68, "lMax": 1.60, "mSpan": 10, "sSpan": 1.6, "gSpan": 1.0, "roll1min": 7, "roll1max": 7, "roll2min": 8, "roll2max": 9
-		},
-		{
-			"tableKey": 19, "mass": 1.05, "spectralClass": "G1", "temp": 5900, "lMin": 0.87, "lMax": 1.90, "mSpan": 8.8, "sSpan": 1.4, "gSpan": 0.8, "roll1min": 7, "roll1max": 7, "roll2min": 3, "roll2max": 7
-		},
-		{
-			"tableKey": 20, "mass": 1.10, "spectralClass": "G0", "temp": 6000, "lMin": 1.10, "lMax": 2.20, "mSpan": 7.7, "sSpan": 1.2, "gSpan": 0.7, "roll1min": 6, "roll1max": 6, "roll2min": 13, "roll2max": 18
-		},
-		{
-			"tableKey": 21, "mass": 1.15, "spectralClass": "F9", "temp": 6100, "lMin": 1.40, "lMax": 2.60, "mSpan": 6.7, "sSpan": 1.0, "gSpan": 0.6, "roll1min": 6, "roll1max": 6, "roll2min": 11, "roll2max": 12
-		},
-		{
-			"tableKey": 22, "mass": 1.20, "spectralClass": "F8", "temp": 6300, "lMin": 1.70, "lMax": 3.00, "mSpan": 5.9, "sSpan": 0.9, "gSpan": 0.6, "roll1min": 6, "roll1max": 6, "roll2min": 10, "roll2max": 10
-		},
-		{
-			"tableKey": 23, "mass": 1.25, "spectralClass": "F7", "temp": 6400, "lMin": 2.10, "lMax": 3.50, "mSpan": 5.2, "sSpan": 0.8, "gSpan": 0.5, "roll1min": 6, "roll1max": 6, "roll2min": 8, "roll2max": 9
-		},
-		{
-			"tableKey": 24, "mass": 1.30, "spectralClass": "F6", "temp": 6500, "lMin": 2.50, "lMax": 3.90, "mSpan": 4.6, "sSpan": 0.7, "gSpan": 0.4, "roll1min": 6, "roll1max": 6, "roll2min": 3, "roll2max": 7
-		},
-		{
-			"tableKey": 25, "mass": 1.35, "spectralClass": "F5", "temp": 6600, "lMin": 3.10, "lMax": 4.50, "mSpan": 4.1, "sSpan": 0.6, "gSpan": 0.4, "roll1min": 5, "roll1max": 5, "roll2min": 13, "roll2max": 18
-		},
-		{
-			"tableKey": 26, "mass": 1.40, "spectralClass": "F4", "temp": 6700, "lMin": 3.70, "lMax": 5.10, "mSpan": 3.7, "sSpan": 0.6, "gSpan": 0.4, "roll1min": 5, "roll1max": 5, "roll2min": 11, "roll2max": 12
-		},
-		{
-			"tableKey": 27, "mass": 1.45, "spectralClass": "F3", "temp": 6900, "lMin": 4.30, "lMax": 5.70, "mSpan": 3.3, "sSpan": 0.5, "gSpan": 0.3, "roll1min": 5, "roll1max": 5, "roll2min": 8, "roll2max": 10
-		},
-		{
-			"tableKey": 28, "mass": 1.50, "spectralClass": "F2", "temp": 7000, "lMin": 5.10, "lMax": 6.50, "mSpan": 3.0, "sSpan": 0.5, "gSpan": 0.3, "roll1min": 5, "roll1max": 5, "roll2min": 3, "roll2max": 7
-		},
-		{
-			"tableKey": 29, "mass": 1.60, "spectralClass": "F0", "temp": 7300, "lMin": 6.70, "lMax": 8.20, "mSpan": 2.5, "sSpan": 0.4, "gSpan": 0.2, "roll1min": 4, "roll1max": 4, "roll2min": 12, "roll2max": 18
-		},
-		{
-			"tableKey": 30, "mass": 1.70, "spectralClass": "A9", "temp": 7500, "lMin": 8.60, "lMax": 10.00, "mSpan": 2.1, "sSpan": 0.3, "gSpan": 0.2, "roll1min": 4, "roll1max": 4, "roll2min": 9, "roll2max": 11
-		},
-		{
-			"tableKey": 31, "mass": 1.80, "spectralClass": "A7", "temp": 7800, "lMin": 11.00, "lMax": 13.00, "mSpan": 1.8, "sSpan": 0.3, "gSpan": 0.2, "roll1min": 4, "roll1max": 4, "roll2min": 3, "roll2max": 8
-		},
-		{
-			"tableKey": 32, "mass": 1.90, "spectralClass": "A6", "temp": 8000, "lMin": 13.00, "lMax": 16.00, "mSpan": 1.5, "sSpan": 0.2, "gSpan": 0.1, "roll1min": 3, "roll1max": 3, "roll2min": 11, "roll2max": 18
-		},
-		{
-			"tableKey": 33, "mass": 2.00, "spectralClass": "A5", "temp": 8200, "lMin": 16.00, "lMax": 20.00, "mSpan": 1.3, "sSpan": 0.2, "gSpan": 0.1, "roll1min": 3, "roll1max": 3, "roll2min": 3, "roll2max": 10
+			"rolls": [14,15,16,17,18],
+			"result": { "tableKey": 0, "mass": 0.10, "spectralClass": "M7", "temp": 3100, "lMin": 0.0012, "lMax": 0.0012, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
 		}
 	]
-}
+};
 
-var stellarAge = {
+exports.stellarAge = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -207,9 +353,9 @@ var stellarAge = {
 			"min_roll": 18
 		}
 	]
-}
+};
 
-var stellarOrbitalSeparation = {
+exports.stellarOrbitalSeparation = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -238,9 +384,9 @@ var stellarOrbitalSeparation = {
 			"min_roll": 15
 		}
 	]
-}
+};
 
-var stellarOrbitalEccentricity = {
+exports.stellarOrbitalEccentricity = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -260,9 +406,9 @@ var stellarOrbitalEccentricity = {
 		{ "result": 0.9, "rolls": [17] },
 		{ "result": 0.95, "min_roll": 18 }
 	]
-}
+};
 
-var gasGiantArrangement = {
+exports.gasGiantArrangement = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -275,9 +421,9 @@ var gasGiantArrangement = {
 		{ "result": "Eccentric Gas Giant", "rolls": [13,14] },
 		{ "result": "Epistellar Gas Giant", "rolls": [15,16,17,18] }
 	]
-}
+};
 
-var orbitalSpacing = {
+exports.orbitalSpacing = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -293,9 +439,9 @@ var orbitalSpacing = {
 		{ "result": 1.9, "rolls": [15,16] },
 		{ "result": 2.0, "min_roll": 17 }
 	]
-}
+};
 
-var gasGiantSize = {
+exports.gasGiantSize = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -307,9 +453,9 @@ var gasGiantSize = {
 		{ "result": "Medium", "rolls": [11,12,13,14,15,16] },
 		{ "result": "Large", "min_roll": 17 }
 	]
-}
+};
 
-var orbitContents = {
+exports.orbitContents = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -342,11 +488,11 @@ var orbitContents = {
 			"min_roll": 16
 		}
 	]
-}
+};
 
 
-var moonFrequencyModifier = {
-	"chart_type": "lookup",
+exports.moonFrequencyModifier = {
+	"chart_type": "compare",
 	"direction": "<=",
 	"results": [
 		{
@@ -374,9 +520,9 @@ var moonFrequencyModifier = {
 			"value": 1000000
 		}
 	]
-}
+};
 
-var gasGiantSizeDetail = {
+exports.gasGiantSizeDetail = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -484,9 +630,9 @@ var gasGiantSizeDetail = {
 			"min_roll": 17
 		}
 	]
-}
+};
 
-var marginalAtmosphere = {
+exports.marginalAtmosphere = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -504,11 +650,11 @@ var marginalAtmosphere = {
 		{ "result": "High Oxygen", "rolls": [15,16] },
 		{ "result": "Inert Gases", "rolls": [17,18] }
 	]
-}
+};
 
 
-var worldClimate = {
-	"chart_type": "lookup",
+exports.worldClimate = {
+	"chart_type": "compare",
 	"direction": ">=",
 	"results": [
 		{
@@ -556,9 +702,9 @@ var worldClimate = {
 			"min_roll": 344
 		}
 	]
-}
+};
 
-var worldDensity = {
+exports.worldDensity = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -572,9 +718,9 @@ var worldDensity = {
 		{ "result": { "Icy": 0.6, "SmallIron": 0.9, "LargeIron": 1.1 }, "rolls": [15,16,17] },
 		{ "result": { "Icy": 0.7, "SmallIron": 1.0, "LargeIron": 1.2 }, "rolls": [18] }
 	]
-}
+};
 
-var sizeConstraints = {
+exports.sizeConstraints = {
 	"chart_type": "index",
 	"results": {
 		"Large": { "result": { "minimum": 0.065, "maximum": 0.091 } },
@@ -582,9 +728,9 @@ var sizeConstraints = {
 		"Small": { "result": { "minimum": 0.024, "maximum": 0.030 } },
 		"Tiny": { "result": { "minimum": 0.004, "maximum": 0.024 } }
 	}
-}
+};
 
-var planetaryOrbitalEccentricity = {
+exports.planetaryOrbitalEccentricity = {
 	"chart_type": "random",
     "throw": {
         "die_sides": 6,
@@ -604,15 +750,15 @@ var planetaryOrbitalEccentricity = {
 		{ "result": 0.7, "rolls": [17] },
 		{ "result": 0.8, "min_roll": 18 }
 	]
-}
+};
 
 
-var worldClass = {
+exports.worldClass = {
 	"chart_type": "index",
 	"results": {
 		"Tiny":	{
             "subchart": {
-            	"chart_type": "lookup",
+            	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
 					{ "class": "Ice", "value": 140 },
@@ -622,7 +768,7 @@ var worldClass = {
 		},
 		"Small":	{
             "subchart": {
-            	"chart_type": "lookup",
+            	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
 					{ "class": "Hadean", "value": 80 },
@@ -633,7 +779,7 @@ var worldClass = {
 		},
 		"Standard":	{
             "subchart": {
-            	"chart_type": "lookup",
+            	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
 					{ "class": "Hadean", "value": 80 },
@@ -648,7 +794,7 @@ var worldClass = {
 		},
 		"Large": {
             "subchart": {
-            	"chart_type": "lookup",
+            	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
 					{ "class": "Hadean", "value": 80 },
@@ -662,9 +808,9 @@ var worldClass = {
             }
 		}
 	}
-}
+};
 
-var worldFactors = {
+exports.worldFactors = {
 	"chart_type": "index",
 	"results": {
 		"Tiny": {
@@ -826,10 +972,10 @@ var worldFactors = {
             }
 		}
 	}
-}
+};
 
-var temperatureFactorsGardenOceanWorlds = {
-	"chart_type": "lookup",
+exports.temperatureFactorsGardenOceanWorlds = {
+	"chart_type": "compare",
 	"direction": "<=",
 	"results": [
 		{ "result": 0.95, "value": 20 },
@@ -837,6 +983,4 @@ var temperatureFactorsGardenOceanWorlds = {
 		{ "result": 0.88, "value": 90 },
 		{ "result": 0.84, "value": 100 }
 	]
-}
-
-?>
+};

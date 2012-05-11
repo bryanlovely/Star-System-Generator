@@ -1,3 +1,5 @@
+charts = require('./charts');
+
 if (!Array.prototype.in_array) {
     Array.prototype.in_array = function ( needle, argStrict ) {
         // Checks if the given value exists in the array
@@ -48,7 +50,7 @@ function DieRoller ( sides ) {
             for ( var i = 0; i < dice_num; i++ ) {
                 total += Math.floor(Math.random()*sides + 1);
             }
-            if ( modifier != undefined ) {
+            if ( typeof modifier != "undefined" ) {
                 total += modifier
             }
             return total;
@@ -62,43 +64,6 @@ sixsider = new DieRoller(6);
 result = sixsider.roll(4,1);
 
 
-
-
-var hit_location_chart = {
-	chart_type: "random",
-    throw: {
-        die_sides: 6,
-        number_of_dice: 2,
-        modifier: 0
-    },
-    results: [
-        {
-            rolls: [2],
-            result: "Critical Hit",
-            subchart: {
-            	chart_type: "random",
-                throw: {
-                    die_sides: 6,
-                    number_of_dice: 1,
-                    modifier: 0
-                },
-                results: [
-                    { rolls: [1], result: "Leg" },
-                    { rolls: [2], result: "Arm" },
-                    { rolls: [3,4], result: "Chest" },
-                    { rolls: [5], result: "Abdomen" },
-                    { rolls: [6], result: "Head" }
-                ]
-            }
-        },
-        {
-            //rolls: [3,4,5,6,7,8,9,10,11,12],
-            min_roll: 3,
-            //max_roll: 12,
-            result: "Not a critical hit"
-        }
-    ]
-}
 
 
 var test_index_chart = {
@@ -115,10 +80,17 @@ var test_index_chart = {
 function ChartHandler ( chart_structure ) {
 
 	function random ( roll ) {
-		console.log("function random ("+roll+")",typeof roll == "undefined");
 
 		// allow injection of the roll for unit testing
-		if ( typeof roll == "undefined" || ( roll instanceof Array && roll.length == 0 ) ) {
+		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
+		var roll_remainder;
+		if ( roll instanceof Array ) {
+			var roll_temp = roll.shift();
+			roll_remainder = roll;
+			roll = roll_temp;
+		}
+
+		if ( typeof roll == "undefined" || roll == "*" || ( roll instanceof Array && roll.length == 0 ) || ( roll instanceof Array && roll[0] == "*" ) ) {
 			console.log("set up dieroller");
 			// set up roller
 			var dieroller = new DieRoller(chart_structure.throw.die_sides);
@@ -127,13 +99,6 @@ function ChartHandler ( chart_structure ) {
 			var roll = dieroller.roll(chart_structure.throw.number_of_dice,chart_structure.throw.modifier);
 		}
 
-		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
-		var roll_remainder;
-		if ( roll instanceof Array ) {
-			var roll_temp = roll.shift();
-			roll_remainder = roll;
-			roll = roll_temp;
-		}
 
 		// check if roll is out of range for the chart
 		if ( roll < chart_structure.throw.number_of_dice + chart_structure.throw.modifier ) {
@@ -144,15 +109,15 @@ function ChartHandler ( chart_structure ) {
 
 		var result;
 		var i = 0;
-		while ( result == undefined && i < chart_structure.results.length ) {
+		while ( typeof result == "undefined" && i < chart_structure.results.length ) {
 
-			if ( chart_structure.results[i].rolls == undefined ) {
+			if ( typeof chart_structure.results[i].rolls == "undefined" ) {
 
 				// omit the min_roll and it assumes the min_roll is the number of dice * 1 + the modifier
 				// omit the max_roll and it assumes the max_roll is the number of dice * sides per die + the modifier
-				if ( chart_structure.results[i].min_roll == undefined && chart_structure.results[i].max_roll != undefined ) {
+				if ( typeof chart_structure.results[i].min_roll == "undefined" && typeof chart_structure.results[i].max_roll != "undefined" ) {
 					chart_structure.results[i].min_roll = chart_structure.throw.number_of_dice + chart_structure.throw.modifier;
-				} else if ( chart_structure.results[i].min_roll != undefined && chart_structure.results[i].max_roll == undefined ) {
+				} else if ( typeof chart_structure.results[i].min_roll != "undefined" && typeof chart_structure.results[i].max_roll == "undefined" ) {
 					chart_structure.results[i].max_roll = chart_structure.throw.number_of_dice * chart_structure.throw.die_sides + chart_structure.throw.modifier;
 				}
 
@@ -165,24 +130,90 @@ function ChartHandler ( chart_structure ) {
 
 			//if ( in_array(roll,chart_structure.results[i].rolls) ) {
 			if ( chart_structure.results[i].rolls.in_array(roll) ) {
-				result = { roll: roll, result: chart_structure.results[i].result };
-				if ( chart_structure.results[i].subchart != undefined ) {
+				result = { roll: [roll], result: chart_structure.results[i].result };
+				if ( typeof chart_structure.results[i].subchart != "undefined" ) {
 					var subchart = new ChartHandler(chart_structure.results[i].subchart);
-						console.log(subchart.getChartStructure());
-					result['secondary'] = subchart.lookup(roll_remainder);
+					var subresult = subchart.lookup(roll_remainder);
+					result.roll.push(subresult.roll[0]);
+					if ( typeof result.result == "undefined" ) {
+						result.result = subresult.result;
+					} else {
+						if ( typeof result.result != Array ) {
+							result.result = [result.result];
+						}
+						result.result.push(subresult.result);
+					}
 				}
 			} else {
 				i++;
 			}
 		}
 
-		if ( result == undefined ) {
+		if ( typeof result == "undefined" ) {
 			result = { error: "undefined" };
 		}
 
 		return result;
 
 	};
+
+
+	function index ( roll ) {
+
+		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
+		var roll_remainder;
+		if ( roll instanceof Array ) {
+			var roll_temp = roll.shift();
+			roll_remainder = roll;
+			roll = roll_temp;
+		}
+
+		result = { "roll": [roll], "result": chart_structure.results[roll].result, "subchart": chart_structure.results[roll].subchart };
+
+		if ( typeof chart_structure.results[roll].subchart != "undefined" ) {
+			var subchart = new ChartHandler(chart_structure.results[roll].subchart);
+			var subresult = subchart.lookup(roll_remainder);
+			result = subresult;
+		}
+
+		if ( typeof result == "undefined" ) {
+			result = { error: "undefined" };
+		}
+
+		return result;
+	}
+
+
+	function compare ( roll ) {
+
+		// allow injection of the roll for unit testing
+		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
+		var roll_remainder;
+		if ( roll instanceof Array ) {
+			var roll_temp = roll.shift();
+			roll_remainder = roll;
+			roll = roll_temp;
+		}
+
+		console.log(roll);
+
+		var result;
+		var i = 0;
+		while ( typeof result == "undefined" && i < chart_structure.results.length ) {
+			if ( ( chart_structure.direction == "<=" && roll <= chart_structure.results[i].value ) ||
+				( chart_structure.direction == ">=" && roll >= chart_structure.results[i].value ) {
+				result = { roll: [roll], result: chart_structure.results[i].result };
+			}
+		}
+
+
+
+		if ( typeof result == "undefined" ) {
+			result = { error: "undefined" };
+		}
+
+		return result;
+	}
 
     return {
         setName: function ( name ) {
@@ -199,15 +230,17 @@ function ChartHandler ( chart_structure ) {
 			switch ( chart_structure.chart_type ) {
 
 				case "random":
-					console.log("case random");
 					result = random(roll);
 					break;
 
 
 				case "index":
+					result = index(roll);
 					break;
 
-				case "lookup":
+				case "compare":
+					console.log("case compare");
+					result = compare(roll);
 					break;
 
 			}
@@ -219,6 +252,13 @@ function ChartHandler ( chart_structure ) {
 }
 
 
-var test_index = new ChartHandler(hit_location_chart);
+//var test_random = new ChartHandler(charts.hit_location_chart);
 
-console.log( test_index.lookup(2) );
+//console.log( test_random.lookup(2) );
+
+
+//var test_index = new ChartHandler(charts.gasGiantSizeDetail);
+//console.log( test_index.lookup(["*","Small"]) );
+
+var test_compare = new ChartHandler(charts.temperatureFactorsGardenOceanWorlds);
+console.log( test_compare.lookup(58.5) );
