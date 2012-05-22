@@ -91,7 +91,6 @@ function ChartHandler ( chart_structure ) {
 		}
 
 		if ( typeof roll == "undefined" || roll == "*" || ( roll instanceof Array && roll.length == 0 ) || ( roll instanceof Array && roll[0] == "*" ) ) {
-			console.log("set up dieroller");
 			// set up roller
 			var dieroller = new DieRoller(chart_structure.throw.die_sides);
 
@@ -195,15 +194,23 @@ function ChartHandler ( chart_structure ) {
 			roll = roll_temp;
 		}
 
-		console.log(roll);
-
 		var result;
-		var i = 0;
-		while ( typeof result == "undefined" && i < chart_structure.results.length ) {
-			if ( ( chart_structure.direction == "<=" && roll <= chart_structure.results[i].value ) ||
-				( chart_structure.direction == ">=" && roll >= chart_structure.results[i].value ) {
-				result = { roll: [roll], result: chart_structure.results[i].result };
-			}
+		if ( chart_structure.direction == "<=" ) {
+            var i = 0;
+            while ( typeof result == "undefined" && i < chart_structure.results.length ) {
+                if ( roll <= chart_structure.results[i].value ) {
+                    result = { roll: [roll], result: chart_structure.results[i].result };
+                }
+                i++;
+            }
+		} else if ( chart_structure.direction == ">=" ) {
+            var i = chart_structure.results.length - 1;
+            while ( typeof result == "undefined" && i >= 0 ) {
+                if ( roll >= chart_structure.results[i].value ) {
+                    result = { roll: [roll], result: chart_structure.results[i].result };
+                }
+                i--;
+            }
 		}
 
 
@@ -233,13 +240,11 @@ function ChartHandler ( chart_structure ) {
 					result = random(roll);
 					break;
 
-
 				case "index":
 					result = index(roll);
 					break;
 
 				case "compare":
-					console.log("case compare");
 					result = compare(roll);
 					break;
 
@@ -260,5 +265,5 @@ function ChartHandler ( chart_structure ) {
 //var test_index = new ChartHandler(charts.gasGiantSizeDetail);
 //console.log( test_index.lookup(["*","Small"]) );
 
-var test_compare = new ChartHandler(charts.temperatureFactorsGardenOceanWorlds);
-console.log( test_compare.lookup(58.5) );
+var test_compare = new ChartHandler(charts.worldClimate);
+console.log( test_compare.lookup(299.5) );

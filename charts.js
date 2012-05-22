@@ -320,6 +320,154 @@ exports.starType = {
 	]
 };
 
+exports.starType_salpeter = {
+	"chart_type": "random",
+    "throw": {
+        "die_sides": 500,
+        "number_of_dice": 1,
+        "modifier": 0
+    },
+	"results": [
+        {
+            "rolls": [1],
+            "result": { "tableKey": 33, "mass": 2.00, "spectralClass": "A5", "temp": 8200, "lMin": 16.00, "lMax": 20.00, "mSpan": 1.3, "sSpan": 0.2, "gSpan": 0.1 }
+        },
+        {
+            "rolls": [2],
+            "result": { "tableKey": 32, "mass": 1.90, "spectralClass": "A6", "temp": 8000, "lMin": 13.00, "lMax": 16.00, "mSpan": 1.5, "sSpan": 0.2, "gSpan": 0.1 }
+        },
+        {
+            "rolls": [3,4],
+            "result": { "tableKey": 31, "mass": 1.80, "spectralClass": "A7", "temp": 7800, "lMin": 11.00, "lMax": 13.00, "mSpan": 1.8, "sSpan": 0.3, "gSpan": 0.2 }
+        },
+        {
+            "rolls": [5,6],
+            "result": { "tableKey": 30, "mass": 1.70, "spectralClass": "A9", "temp": 7500, "lMin": 8.60, "lMax": 10.00, "mSpan": 2.1, "sSpan": 0.3, "gSpan": 0.2 }
+        },
+        {
+            "rolls": [7,8],
+            "result": { "tableKey": 29, "mass": 1.60, "spectralClass": "F0", "temp": 7300, "lMin": 6.70, "lMax": 8.20, "mSpan": 2.5, "sSpan": 0.4, "gSpan": 0.2 }
+        },
+        {
+            "rolls": [9,10],
+            "result": { "tableKey": 28, "mass": 1.50, "spectralClass": "F2", "temp": 7000, "lMin": 5.10, "lMax": 6.50, "mSpan": 3.0, "sSpan": 0.5, "gSpan": 0.3 }
+        },
+        {
+            "rolls": [11,12,13],
+            "result": { "tableKey": 27, "mass": 1.45, "spectralClass": "F3", "temp": 6900, "lMin": 4.30, "lMax": 5.70, "mSpan": 3.3, "sSpan": 0.5, "gSpan": 0.3 }
+        },
+        {
+            "rolls": [14,15,16],
+            "result": { "tableKey": 26, "mass": 1.40, "spectralClass": "F4", "temp": 6700, "lMin": 3.70, "lMax": 5.10, "mSpan": 3.7, "sSpan": 0.6, "gSpan": 0.4 }
+        },
+        {
+            "rolls": [17,18,19],
+            "result": { "tableKey": 25, "mass": 1.35, "spectralClass": "F5", "temp": 6600, "lMin": 3.10, "lMax": 4.50, "mSpan": 4.1, "sSpan": 0.6, "gSpan": 0.4 }
+        },
+        {
+            "rolls": [20,21,22],
+            "result": { "tableKey": 24, "mass": 1.30, "spectralClass": "F6", "temp": 6500, "lMin": 2.50, "lMax": 3.90, "mSpan": 4.6, "sSpan": 0.7, "gSpan": 0.4 }
+        },
+        {
+            "rolls": [23,24,25],
+            "result": { "tableKey": 23, "mass": 1.25, "spectralClass": "F7", "temp": 6400, "lMin": 2.10, "lMax": 3.50, "mSpan": 5.2, "sSpan": 0.8, "gSpan": 0.5 }
+        },
+        {
+            "rolls": [26,27,28],
+            "result": { "tableKey": 22, "mass": 1.20, "spectralClass": "F8", "temp": 6300, "lMin": 1.70, "lMax": 3.00, "mSpan": 5.9, "sSpan": 0.9, "gSpan": 0.6 }
+        },
+        {
+            "rolls": [29,30,31,32],
+            "result": { "tableKey": 21, "mass": 1.15, "spectralClass": "F9", "temp": 6100, "lMin": 1.40, "lMax": 2.60, "mSpan": 6.7, "sSpan": 1.0, "gSpan": 0.6 }
+        },
+        {
+            "rolls": [33,34,35,36],
+            "result": { "tableKey": 20, "mass": 1.10, "spectralClass": "G0", "temp": 6000, "lMin": 1.10, "lMax": 2.20, "mSpan": 7.7, "sSpan": 1.2, "gSpan": 0.7 }
+        },
+        {
+            "rolls": [37,38,39,40],
+            "result": { "tableKey": 19, "mass": 1.05, "spectralClass": "G1", "temp": 5900, "lMin": 0.87, "lMax": 1.90, "mSpan": 8.8, "sSpan": 1.4, "gSpan": 0.8 }
+        },
+        {
+            "rolls": [41,42,43,44,45],
+            "result": { "tableKey": 18, "mass": 1.00, "spectralClass": "G2", "temp": 5800, "lMin": 0.68, "lMax": 1.60, "mSpan": 10, "sSpan": 1.6, "gSpan": 1.0 }
+        },
+        {
+            "rolls": [46,47,48,49,50],
+            "result": { "tableKey": 17, "mass": 0.95, "spectralClass": "G4", "temp": 5700, "lMin": 0.56, "lMax": 1.30, "mSpan": 12, "sSpan": 1.8, "gSpan": 1.1 }
+        },
+        {
+            "rolls": [51,52,53,55,54,56],
+            "result": { "tableKey": 16, "mass": 0.90, "spectralClass": "G6", "temp": 5500, "lMin": 0.45, "lMax": 1.00, "mSpan": 14, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "rolls": [57,58,59,60,61,62,63],
+            "result": { "tableKey": 15, "mass": 0.85, "spectralClass": "G8", "temp": 5400, "lMin": 0.36, "lMax": 0.84, "mSpan": 17, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "rolls": [64,65,66,67,68,69,70],
+            "result": { "tableKey": 14, "mass": 0.80, "spectralClass": "K0", "temp": 5200, "lMin": 0.28, "lMax": 0.65, "mSpan": 20, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "rolls": [71,72,73,74,75,76,77,78],
+            "result": { "tableKey": 13, "mass": 0.75, "spectralClass": "K2", "temp": 4900, "lMin": 0.23, "lMax": 0.48, "mSpan": 24, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "rolls": [79,80,81,82,83,84,85,86,87],
+            "result": { "tableKey": 12, "mass": 0.70, "spectralClass": "K4", "temp": 4600, "lMin": 0.19, "lMax": 0.35, "mSpan": 30, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 88, "max_roll": 98,
+            "result": { "tableKey": 11, "mass": 0.65, "spectralClass": "K5", "temp": 4400, "lMin": 0.15, "lMax": 0.25, "mSpan": 37, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 99, "max_roll": 110,
+            "result": { "tableKey": 10, "mass": 0.60, "spectralClass": "K6", "temp": 4200, "lMin": 0.13, "lMax": 0.20, "mSpan": 42, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 111, "max_roll": 125,
+            "result": { "tableKey": 9, "mass": 0.55, "spectralClass": "K8", "temp": 4000, "lMin": 0.11, "lMax": 0.15, "mSpan": 50, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 126, "max_roll": 142,
+            "result": { "tableKey": 8, "mass": 0.50, "spectralClass": "M0", "temp": 3800, "lMin": 0.09, "lMax": 0.11, "mSpan": 59, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 143, "max_roll": 162,
+            "result": { "tableKey": 7, "mass": 0.45, "spectralClass": "M1", "temp": 3600, "lMin": 0.07, "lMax": 0.08, "mSpan": 70, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 163, "max_roll": 186,
+            "result": { "tableKey": 6, "mass": 0.40, "spectralClass": "M2", "temp": 3500, "lMin": 0.054, "lMax": 0.054, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 187, "max_roll": 215,
+            "result": { "tableKey": 5, "mass": 0.35, "spectralClass": "M3", "temp": 3400, "lMin": 0.037, "lMax": 0.037, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+        },
+        {
+            "min_roll": 216, "max_roll": 250,
+            "result": { "tableKey": 4, "mass": 0.30, "spectralClass": "M4", "temp": 3300, "lMin": 0.024, "lMax": 0.024, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+        },
+		{
+			"min_roll": 251, "max_roll": 295,
+			"result": { "tableKey": 3, "mass": 0.25, "spectralClass": "M4", "temp": 3300, "lMin": 0.015, "lMax": 0.015, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+		},
+		{
+			"min_roll": 296, "max_roll": 350,
+			"result": { "tableKey": 2, "mass": 0.20, "spectralClass": "M5", "temp": 3200, "lMin": 0.0079, "lMax": 0.0079, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+		},
+		{
+			"min_roll": 351, "max_roll": 417,
+			"result": { "tableKey": 1, "mass": 0.15, "spectralClass": "M6", "temp": 3200, "lMin": 0.0036, "lMax": 0.0036, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+		},
+		{
+			"min_roll": 418, "max_roll": 500,
+			"result": { "tableKey": 0, "mass": 0.10, "spectralClass": "M7", "temp": 3100, "lMin": 0.0012, "lMax": 0.0012, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+		}
+	]
+};
+
+
 exports.stellarAge = {
 	"chart_type": "random",
     "throw": {
@@ -657,50 +805,17 @@ exports.worldClimate = {
 	"chart_type": "compare",
 	"direction": ">=",
 	"results": [
-		{
-			"result": "Frozen", 
-			"min_roll": 0
-		},
-		{
-			"result": "Very Cold", 
-			"min_roll": 244
-		},
-		{
-			"result": "Cold", 
-			"min_roll": 255
-		},
-		{
-			"result": "Chilly", 
-			"min_roll": 266
-		},
-		{
-			"result": "Cool", 
-			"min_roll": 278
-		},
-		{
-			"result": "Normal", 
-			"min_roll": 289
-		},
-		{
-			"result": "Warm", 
-			"min_roll": 300
-		},
-		{
-			"result": "Tropical", 
-			"min_roll": 311
-		},
-		{
-			"result": "Hot", 
-			"min_roll": 322
-		},
-		{
-			"result": "Very Hot", 
-			"min_roll": 333
-		},
-		{
-			"result": "Infernal", 
-			"min_roll": 344
-		}
+		{ "result": "Frozen", "value": 0 },
+		{ "result": "Very Cold", "value": 244 },
+		{ "result": "Cold", "value": 255 },
+		{ "result": "Chilly", "value": 266 },
+		{ "result": "Cool", "value": 278 },
+		{ "result": "Normal", "value": 289 },
+		{ "result": "Warm", "value": 300 },
+		{ "result": "Tropical", "value": 311 },
+		{ "result": "Hot", "value": 322 },
+		{ "result": "Very Hot", "value": 333 },
+		{ "result": "Infernal", "value": 344 }
 	]
 };
 
