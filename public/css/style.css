@@ -1,8 +1,46 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url('/img/starfield.gif');
 }
 
 a {
   color: #00B7FF;
+}
+
+
+.star {
+	overflow: hidden;
+	background-image: url('/img/star_sprite.png');
+	background-repeat: no-repeat;
+}
+
+.star.spectralA {
+	background-position: 0 0;
+	height: 124px;
+	width: 124px;
+}
+
+.star.spectralF {
+	background-position: -130px 0;
+	height: 108px;
+	width: 108px;
+}
+
+.star.spectralG {
+	background-position: -250px 0;
+	height: 92px;
+	width: 92px;
+}
+
+.star.spectralK {
+	background-position: -350px 0;
+	height: 78px;
+	width: 78px;
+}
+
+.star.spectralM {
+	background-position: -440px 0;
+	height: 62px;
+	width: 62px;
 }

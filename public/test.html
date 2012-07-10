@@ -1,30 +1,58 @@
 <html>
+<head>
+
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+	<script src="js/libs/jquery-1.7.2.min.js"></script>
+	<script src="js/libs/json2.js"></script>
+	<script src="js/libs/underscore-min.js"></script>
+	<script src="js/libs/backbone-min.js"></script>
+	<script src="js/libs/kinetic-v3.9.3.min.js"></script>
+
+	<script src="/socket.io/socket.io.js"></script>
+
+</head>
 <body>
 
 
+<p>Test page</p>
+
+
+<div class="star spectralA"></div>
+<div class="star spectralF"></div>
+<div class="star spectralG"></div>
+<div class="star spectralK"></div>
+<div class="star spectralM"></div>
 
 
 
+<script src="js/models/celestial_object.js"></script>
+<script src="js/models/system.js"></script>
 
-</body>
-
-<script src="/js/kinetic.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 <script>
-$(function(){
 
-	var socket = io.connect('http://starsystemgen:8000/');
-
-  socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-    socket.emit('ferret', 'tobi', function (data) {
-      console.log(data); // data will be 'woot'
-    });
-  });
+var star = new Star({"spectralClass":"G2"});
 
 
-});
+
+var system = new System({orbitingChildren: new OrbitingChildren});
+system.get("orbitingChildren").add(
+	[
+		new Planet({sizeClass: 'Small', orbitalRadius: 25}),
+		new Planet({sizeClass: 'Tiny', orbitalRadius: 10})
+	]
+);
+system.get("orbitingChildren").add(
+	[
+		new AsteroidBelt({orbitalRadius: 5})
+	]
+);
+
+
+console.log( system.get('orbitingChildren').at(0).constructor );
+
 </script>
 
 
+</body>
 </html>

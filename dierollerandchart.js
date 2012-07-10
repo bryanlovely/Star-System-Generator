@@ -1,5 +1,3 @@
-charts = require('./charts');
-
 if (!Array.prototype.in_array) {
     Array.prototype.in_array = function ( needle, argStrict ) {
         // Checks if the given value exists in the array
@@ -60,24 +58,10 @@ function DieRoller ( sides ) {
 }
 
 
-sixsider = new DieRoller(6);
-result = sixsider.roll(4,1);
 
 
 
-
-var test_index_chart = {
-				"chart_type": "index",
-				"results": {
-					"Small": { "result": { "mass": 10, "density": 0.42 } },
-					"Medium": { "result": { "mass": 100, "density": 0.18} },
-					"Large": { "result": { "mass": 600, "density": 0.31} }
-				}
-};
-
-
-
-function ChartHandler ( chart_structure ) {
+var ChartHandler = function ( chart_structure ) {
 
 	function random ( roll ) {
 
@@ -257,13 +241,11 @@ function ChartHandler ( chart_structure ) {
 }
 
 
-//var test_random = new ChartHandler(charts.hit_location_chart);
 
-//console.log( test_random.lookup(2) );
-
-
-//var test_index = new ChartHandler(charts.gasGiantSizeDetail);
-//console.log( test_index.lookup(["*","Small"]) );
-
-var test_compare = new ChartHandler(charts.worldClimate);
-console.log( test_compare.lookup(299.5) );
+exports.chartHandlers = function ( charts ) {
+	var chartHandlers = {};
+	for ( val in charts ) {
+		chartHandlers[val] = new ChartHandler(charts[val]);
+	}
+	return chartHandlers;
+}

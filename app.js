@@ -6,7 +6,11 @@
 var express = require('express')
     , routes = require('./routes')
     , socket = require('socket.io')
-    , events = require('./events');
+    , events = require('./events')
+    , charts = require('./charts')
+    , chartHandler = require('./dierollerandchart')
+    , baseModelFactory = require('./models/baseModel')
+    ;
 
 var app = module.exports = express.createServer();
 var io = socket.listen(app);
@@ -40,17 +44,15 @@ app.listen(8000, function(){
 
 
 
+// set up chart handlers
+global.spaceCharts = chartHandler.chartHandlers(charts);
+
+events.testGlobal('message',events.testCallback);
+var foo = new baseModelFactory.baseModel();
+console.log(foo);
+
+
+
 
 
 io.sockets.on('connection', events.connection);
-
-
-// socket event handlers
-/*
-io.sockets.on('connection', function (socket) {
-  socket.on('ferret', function (name, fn) {
-  	console.log('ferret = '+name);
-    fn('woot');
-  });
-});
-*/
