@@ -438,31 +438,31 @@ exports.starType_salpeter = {
         },
         {
             "min_roll": 163, "max_roll": 186,
-            "result": { "tableKey": 6, "mass": 0.40, "spectralClass": "M2", "temp": 3500, "lMin": 0.054, "lMax": 0.054, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+            "result": { "tableKey": 6, "mass": 0.40, "spectralClass": "M2", "temp": 3500, "lMin": 0.054, "lMax": 0.054, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
         },
         {
             "min_roll": 187, "max_roll": 215,
-            "result": { "tableKey": 5, "mass": 0.35, "spectralClass": "M3", "temp": 3400, "lMin": 0.037, "lMax": 0.037, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+            "result": { "tableKey": 5, "mass": 0.35, "spectralClass": "M3", "temp": 3400, "lMin": 0.037, "lMax": 0.037, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
         },
         {
             "min_roll": 216, "max_roll": 250,
-            "result": { "tableKey": 4, "mass": 0.30, "spectralClass": "M4", "temp": 3300, "lMin": 0.024, "lMax": 0.024, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+            "result": { "tableKey": 4, "mass": 0.30, "spectralClass": "M4", "temp": 3300, "lMin": 0.024, "lMax": 0.024, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
         },
 		{
 			"min_roll": 251, "max_roll": 295,
-			"result": { "tableKey": 3, "mass": 0.25, "spectralClass": "M4", "temp": 3300, "lMin": 0.015, "lMax": 0.015, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+			"result": { "tableKey": 3, "mass": 0.25, "spectralClass": "M4", "temp": 3300, "lMin": 0.015, "lMax": 0.015, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
 			"min_roll": 296, "max_roll": 350,
-			"result": { "tableKey": 2, "mass": 0.20, "spectralClass": "M5", "temp": 3200, "lMin": 0.0079, "lMax": 0.0079, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+			"result": { "tableKey": 2, "mass": 0.20, "spectralClass": "M5", "temp": 3200, "lMin": 0.0079, "lMax": 0.0079, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
 			"min_roll": 351, "max_roll": 417,
-			"result": { "tableKey": 1, "mass": 0.15, "spectralClass": "M6", "temp": 3200, "lMin": 0.0036, "lMax": 0.0036, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+			"result": { "tableKey": 1, "mass": 0.15, "spectralClass": "M6", "temp": 3200, "lMin": 0.0036, "lMax": 0.0036, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
 		},
 		{
 			"min_roll": 418, "max_roll": 500,
-			"result": { "tableKey": 0, "mass": 0.10, "spectralClass": "M7", "temp": 3100, "lMin": 0.0012, "lMax": 0.0012, "mSpan": 1000, "sSpan": 0, "gSpan": 0 }
+			"result": { "tableKey": 0, "mass": 0.10, "spectralClass": "M7", "temp": 3100, "lMin": 0.0012, "lMax": 0.0012, "mSpan": 1000000, "sSpan": 0, "gSpan": 0 }
 		}
 	]
 };

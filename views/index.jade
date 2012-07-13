@@ -1,20 +1,5 @@
 h1= title
-p Welcome to #{title}
 
-script(type='text/javascript')
-	$(function(){
-		var socket = io.connect('http://starsystemgen:8000/');
-		socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-		});
-		socket.on('timerTick', function(key) {
-			console.log('timerTick',key);
-			$('#container').html('timerTick '+key);
-		});
-	});
-
-
-each val, key in items
-	li #{key} : #{val}
 
 
 pre#container

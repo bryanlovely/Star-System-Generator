@@ -1,3 +1,12 @@
+//if (!Math.prototype.roundPos) {
+	/**
+	 * rounds off a number to a number of decimal places
+	 * positive for decimal places, negative for 10s, 100s, etc.
+	 */
+	Math.roundPos = function ( base, digits ) {
+		return Math.round( base * Math.pow(10,digits) ) / Math.pow(10,digits);
+	}
+//}
 if (!Array.prototype.in_array) {
     Array.prototype.in_array = function ( needle, argStrict ) {
         // Checks if the given value exists in the array
@@ -61,7 +70,8 @@ function DieRoller ( sides ) {
 
 
 
-var ChartHandler = function ( chart_structure ) {
+var ChartHandler = function ( chart_structure, modifier ) {
+
 
 	function random ( roll ) {
 
@@ -80,6 +90,9 @@ var ChartHandler = function ( chart_structure ) {
 
 			// get initial result
 			var roll = dieroller.roll(chart_structure.throw.number_of_dice,chart_structure.throw.modifier);
+			if ( typeof modifier != "undefined" ) {
+				roll += modifier;
+			}
 		}
 
 
@@ -207,9 +220,15 @@ var ChartHandler = function ( chart_structure ) {
 	}
 
     return {
+
         setName: function ( name ) {
             chart_structure.name = name;
             return this;
+        },
+
+        setModifier: function ( mod ) {
+        	modifier = mod;
+        	return this;
         },
 
         getChartStructure: function () {
@@ -249,3 +268,5 @@ exports.chartHandlers = function ( charts ) {
 	}
 	return chartHandlers;
 }
+
+exports.dieRoller = new DieRoller(6);
