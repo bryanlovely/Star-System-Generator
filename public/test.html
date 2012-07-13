@@ -10,6 +10,48 @@
 	<script src="js/libs/kinetic-v3.9.3.min.js"></script>
 
 	<script src="/socket.io/socket.io.js"></script>
+	
+	<style type="text/css">
+	    
+/* This is the animation code. */
+@-webkit-keyframes appearPop {
+    0% {-webkit-transform: scale(0);}
+    70% {-webkit-transform: scale(1.25);}
+    100% {-webkit-transform: scale(1);}
+}
+/* This is the element that we apply the animation to. */
+p.animatedDot {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    -webkit-animation: appearPop 0.25s linear; /* Safari and Chrome */
+    position: absolute;
+    top: 200px;
+    left: 200px;
+ }
+ 
+ p.animatedDot:hover {
+    width: 40px;
+    height: 40px;
+}
+
+div#scale {
+    height: 20px;
+    width: 910px;
+    border: 1px solid black;
+    border-top: none;
+    position: relative;
+    margin-left: 50px;
+}
+div#scale .mark {
+    height: 20px;
+    width: 1px;
+    border-left: 1px solid black;
+    position: absolute;
+    top: 0;
+}
+	
+	</style>
 
 </head>
 <body>
@@ -18,13 +60,55 @@
 <p>Test page</p>
 
 
+<!--
 <div class="star spectralA"></div>
 <div class="star spectralF"></div>
 <div class="star spectralG"></div>
 <div class="star spectralK"></div>
 <div class="star spectralM"></div>
+-->
+
+<button id="go">Go</button>
+<div id="testarea"></div>
+<p class="star spectralA animatedDot"></p>
+
+<div id="scale">
+</div>
 
 
+<script>
+
+var width = $('#scale').width(),
+    max_orbit = 450,
+    increment = 0.1,
+    k = 0, 
+    q = 0,
+    count = 1;
+while ( k <= max_orbit ) {
+    if ( count >= 10 ) {
+        count = 1;
+        increment *= 10;
+    }
+    count++;
+    k = count * increment;
+    q = logScale(k,max_orbit,width)
+    if ( q >= 1 && q < width ) {
+        var marker = $('<div class="mark"></div>').css('left',q);
+        $('#scale').append(marker);
+    }
+
+}
+
+
+function logScale ( orbit, max_orbit, width )
+{
+    var max_log = Math.log(max_orbit)/Math.LN10;
+    var orbit_log = 1 + Math.log(orbit)/Math.LN10;
+    var pos = (orbit_log/(max_log+1)) * width;
+    return pos;
+}
+
+</script>
 
 <script src="js/models/celestial_object.js"></script>
 <script src="js/models/system.js"></script>
@@ -48,8 +132,6 @@ system.get("orbitingChildren").add(
 	]
 );
 
-
-console.log( system.get('orbitingChildren').at(0).constructor );
 
 </script>
 
