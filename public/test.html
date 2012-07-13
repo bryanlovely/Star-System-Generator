@@ -84,6 +84,7 @@ var width = $('#scale').width(),
     k = 0, 
     q = 0,
     count = 1;
+var scaler = new logScale(max_orbit,width);
 while ( k <= max_orbit ) {
     if ( count >= 10 ) {
         count = 1;
@@ -91,21 +92,33 @@ while ( k <= max_orbit ) {
     }
     count++;
     k = count * increment;
-    q = logScale(k,max_orbit,width)
+    q = scaler.get(k);
     if ( q >= 1 && q < width ) {
         var marker = $('<div class="mark"></div>').css('left',q);
         $('#scale').append(marker);
     }
-
 }
 
+var star = $('<div></div>').addClass('star spectralK');
+$('#scale').append(star);
+star.css({position: 'absolute', top: -star.height(), left: scaler.get(44)});
 
-function logScale ( orbit, max_orbit, width )
+var star2 = $('<div></div>').addClass('star spectralK');
+$('#scale').append(star2);
+star2.css({position: 'absolute', top: -star2.height(), left: scaler.get(44* 1.5)});
+
+
+function logScale ( max_orbit, width )
 {
-    var max_log = Math.log(max_orbit)/Math.LN10;
-    var orbit_log = 1 + Math.log(orbit)/Math.LN10;
-    var pos = (orbit_log/(max_log+1)) * width;
-    return pos;
+    var max_log = Math.log(max_orbit)/Math.LN10 + 1;
+    return {
+        get: function ( orbit ) {
+            console.log(max_log, width);
+            var orbit_log = 1 + Math.log(orbit)/Math.LN10;
+            var pos = (orbit_log/(max_log)) * width;
+            return pos;
+        }
+    }
 }
 
 </script>
