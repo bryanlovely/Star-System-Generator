@@ -70,13 +70,17 @@ div#scale .mark {
 
 <button id="go">Go</button>
 <div id="testarea"></div>
-<p class="star spectralA animatedDot"></p>
+<!--<p class="star spectralA animatedDot"></p>-->
 
 <div id="scale">
 </div>
 
 
 <script>
+    $('#go').on('click',function(){
+        var star = $('<p class="star spectralA animatedDot"></p>');
+        $('#testarea').html( star );
+    });
 
 var width = $('#scale').width(),
     max_orbit = 450,
@@ -99,13 +103,12 @@ while ( k <= max_orbit ) {
     }
 }
 
-var star = $('<div></div>').addClass('star spectralK');
-$('#scale').append(star);
-star.css({position: 'absolute', top: -star.height(), left: scaler.get(44)});
+var star = $('<div></div>').addClass('star spectralK animatedDot');
+//$('#scale').append(star);
+//star.css({position: 'absolute', top: -star.height(), left: scaler.get(44)}).addClass('animatedDot');
 
-var star2 = $('<div></div>').addClass('star spectralK');
+var star2 = $('<p></p>').addClass('star spectralK animatedDot').css({position: 'absolute', top: 0, left: scaler.get(44* 1.5 )});
 $('#scale').append(star2);
-star2.css({position: 'absolute', top: -star2.height(), left: scaler.get(44* 1.5)});
 
 
 function logScale ( max_orbit, width )
