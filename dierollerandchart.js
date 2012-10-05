@@ -1,223 +1,136 @@
-//if (!Math.prototype.roundPos) {
-	/**
-	 * rounds off a number to a number of decimal places
-	 * positive for decimal places, negative for 10s, 100s, etc.
-	 */
-	Math.roundPos = function ( base, digits ) {
-		return Math.round( base * Math.pow(10,digits) ) / Math.pow(10,digits);
+// class for handling lookup charts
+var ChartHandler = function ( chart_structure ) {
+
+	var modifier = 0;
+
+	function _applySubchart ( result, subchart, roll ) {
+		var subresult;
+		if ( subchart !== undefined ) {
+			if ( !(subchart.getChartStructure) ) {
+				subchart = new ChartHandler(subchart);
+			}
+			subresult = subchart.lookup(roll);
+			if ( result.result === undefined ) {
+				result.result = subresult.result;
+			} else {
+				if ( !(result.result instanceof Array) ) {
+					result.result = [result.result];
+				}
+				result.result.push(subresult.result);
+			}
+			result.roll = result.roll.concat(subresult.roll);
+		}
+		return result;
 	}
-//}
-if (!Array.prototype.in_array) {
-    Array.prototype.in_array = function ( needle, argStrict ) {
-        // Checks if the given value exists in the array
-        //
-        // version: 1109.2015
-        // discuss at: http://phpjs.org/functions/in_array
-        // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-        // +   improved by: vlado houba
-        // +   input by: Billy
-        // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-        // *     example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
-        // *     returns 1: true
-        // *     example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
-        // *     returns 2: false
-        // *     example 3: in_array(1, ['1', '2', '3']);
-        // *     returns 3: true
-        // *     example 3: in_array(1, ['1', '2', '3'], false);
-        // *     returns 3: true
-        // *     example 4: in_array(1, ['1', '2', '3'], true);
-        // *     returns 4: false
-        var key = '',
-            strict = !! argStrict;
 
-        if (strict) {
-            for (key in this) {
-                if (this[key] === needle) {
-                    return true;
-                }
-            }
-        } else {
-            for (key in this) {
-                if (this[key] == needle) {
-                    return true;
-                }
-            }
-        }
+	function _expandChartStructure ( modifiedRoll ) {
+		var i, j,
+			lowestIndex = Number.MAX_VALUE,
+			highestIndex = Number.MIN_VALUE;
+		// convert chart_structure.results into map
+		if ( chart_structure.resultsMap === undefined ) {
+			chart_structure.resultsMap = {};
+			for ( i in chart_structure.results ) {
+				if ( chart_structure.results[i].rolls !== undefined ) {
+					for ( j = 0; j < chart_structure.results[i].rolls.length; j++ ) {
+						chart_structure.resultsMap[chart_structure.results[i].rolls[j]] = i;
+					}
+				} else if ( chart_structure.results[i].min_roll !== undefined && chart_structure.results[i].max_roll !== undefined ) {
+					for ( j = chart_structure.results[i].min_roll; j <= chart_structure.results[i].max_roll; j++ ) {
+						chart_structure.resultsMap[j] = i;
+					}
+				} else if ( chart_structure.results[i].max_roll !== undefined ) {
+					chart_structure.resultsMap[chart_structure.results[i].max_roll] = i;
+				} else if ( chart_structure.results[i].min_roll !== undefined ) {
+					chart_structure.resultsMap[chart_structure.results[i].min_roll] = i;
+				}
+			}
+		}
 
-        return false;
-    }
-}
-
-
-function DieRoller ( sides ) {
-
-    return {
-        roll: function ( dice_num, modifier ) {
-            var total = 0;
-            for ( var i = 0; i < dice_num; i++ ) {
-                total += Math.floor(Math.random()*sides + 1);
-            }
-            if ( typeof modifier != "undefined" ) {
-                total += modifier
-            }
-            return total;
-        }
-    }
-
-}
-
-
-
-
-
-var ChartHandler = function ( chart_structure, modifier ) {
+		// expand result map as needed
+		if ( chart_structure.resultsMap[modifiedRoll] === undefined ) {
+			// get lowest and highest index
+			for ( i in chart_structure.resultsMap ) {
+				lowestIndex = Math.min(Number(i), lowestIndex);
+				highestIndex = Math.max(Number(i), highestIndex);
+			}
+			if ( modifiedRoll < lowestIndex ) {
+				for ( i = modifiedRoll; i < lowestIndex; i++ ) {
+					chart_structure.resultsMap[i] = chart_structure.resultsMap[lowestIndex];
+				}
+			} else if ( modifiedRoll > highestIndex ) {
+				for ( i = modifiedRoll; i > highestIndex; i-- ) {
+					chart_structure.resultsMap[i] = chart_structure.resultsMap[highestIndex];
+				}
+			}
+		}
+	}
 
 
 	function random ( roll ) {
 
-		// allow injection of the roll for unit testing
-		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
-		var roll_remainder;
-		if ( roll instanceof Array ) {
-			var roll_temp = roll.shift();
-			roll_remainder = roll;
-			roll = roll_temp;
-		}
+		var lowestIndex = Number.MAX_VALUE, highestIndex = Number.MIN_VALUE, mapResult, result;
 
-		if ( typeof roll == "undefined" || roll == "*" || ( roll instanceof Array && roll.length == 0 ) || ( roll instanceof Array && roll[0] == "*" ) ) {
+		if ( roll === undefined || roll === "*" || ( roll instanceof Array && roll.length == 0 ) || ( roll instanceof Array && roll[0] == "*" ) ) {
 			// set up roller
-			var dieroller = new DieRoller(chart_structure.throw.die_sides);
 
 			// get initial result
-			var roll = dieroller.roll(chart_structure.throw.number_of_dice,chart_structure.throw.modifier);
+			roll = dieRoller.roll(
+				chart_structure.throw.number_of_dice + 'd' + chart_structure.throw.die_sides
+				+ '+' + chart_structure.throw.modifier
+			).result;
 			if ( typeof modifier != "undefined" ) {
 				roll += modifier;
 			}
 		}
 
+		_expandChartStructure(roll+modifier);
 
+		mapResult = chart_structure.results[chart_structure.resultsMap[roll+modifier]];
+
+		return { roll: [roll], modifier: modifier, result: mapResult.result, subchart: mapResult.subchart };
+
+		/*
 		// check if roll is out of range for the chart
-		if ( roll < chart_structure.throw.number_of_dice + chart_structure.throw.modifier ) {
+		if ( roll < chart_structure.throw.number_of_dice + chart_structure.throw.modifier + modifier ) {
 			return { error: "out of range (under)" };
-		} else if ( roll > chart_structure.throw.number_of_dice * chart_structure.throw.die_sides + chart_structure.throw.modifier ) {
-			return { error: "out of range (over)" };
+		} else if ( roll > chart_structure.throw.number_of_dice * chart_structure.throw.die_sides + chart_structure.throw.modifier + modifier ) {
+			return { error: "out of range (over): roll = " + roll + " max = "+ (chart_structure.throw.number_of_dice * chart_structure.throw.die_sides) + " mod = "+chart_structure.throw.modifier};
 		}
-
-		var result;
-		var i = 0;
-		while ( typeof result == "undefined" && i < chart_structure.results.length ) {
-
-			if ( typeof chart_structure.results[i].rolls == "undefined" ) {
-
-				// omit the min_roll and it assumes the min_roll is the number of dice * 1 + the modifier
-				// omit the max_roll and it assumes the max_roll is the number of dice * sides per die + the modifier
-				if ( typeof chart_structure.results[i].min_roll == "undefined" && typeof chart_structure.results[i].max_roll != "undefined" ) {
-					chart_structure.results[i].min_roll = chart_structure.throw.number_of_dice + chart_structure.throw.modifier;
-				} else if ( typeof chart_structure.results[i].min_roll != "undefined" && typeof chart_structure.results[i].max_roll == "undefined" ) {
-					chart_structure.results[i].max_roll = chart_structure.throw.number_of_dice * chart_structure.throw.die_sides + chart_structure.throw.modifier;
-				}
-
-				// fill in the rolls array based on min_roll and max_roll
-				chart_structure.results[i].rolls = [];
-				for ( var j = chart_structure.results[i].min_roll; j <= chart_structure.results[i].max_roll; j++ ) {
-					chart_structure.results[i].rolls.push(j);
-				}
-			}
-
-			//if ( in_array(roll,chart_structure.results[i].rolls) ) {
-			if ( chart_structure.results[i].rolls.in_array(roll) ) {
-				result = { roll: [roll], result: chart_structure.results[i].result };
-				if ( typeof chart_structure.results[i].subchart != "undefined" ) {
-					var subchart = new ChartHandler(chart_structure.results[i].subchart);
-					var subresult = subchart.lookup(roll_remainder);
-					result.roll.push(subresult.roll[0]);
-					if ( typeof result.result == "undefined" ) {
-						result.result = subresult.result;
-					} else {
-						if ( typeof result.result != Array ) {
-							result.result = [result.result];
-						}
-						result.result.push(subresult.result);
-					}
-				}
-			} else {
-				i++;
-			}
-		}
-
-		if ( typeof result == "undefined" ) {
-			result = { error: "undefined" };
-		}
-
-		return result;
-
+		*/
 	};
 
 
 	function index ( roll ) {
-
-		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
-		var roll_remainder;
-		if ( roll instanceof Array ) {
-			var roll_temp = roll.shift();
-			roll_remainder = roll;
-			roll = roll_temp;
-		}
-
-		result = { "roll": [roll], "result": chart_structure.results[roll].result, "subchart": chart_structure.results[roll].subchart };
-
-		if ( typeof chart_structure.results[roll].subchart != "undefined" ) {
-			var subchart = new ChartHandler(chart_structure.results[roll].subchart);
-			var subresult = subchart.lookup(roll_remainder);
-			result = subresult;
-		}
-
-		if ( typeof result == "undefined" ) {
-			result = { error: "undefined" };
-		}
-
-		return result;
+		return { roll: [roll], result: chart_structure.results[roll].result, subchart: chart_structure.results[roll].subchart };
 	}
 
 
 	function compare ( roll ) {
 
-		// allow injection of the roll for unit testing
-		// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
-		var roll_remainder;
-		if ( roll instanceof Array ) {
-			var roll_temp = roll.shift();
-			roll_remainder = roll;
-			roll = roll_temp;
-		}
+		var result, i;
 
-		var result;
 		if ( chart_structure.direction == "<=" ) {
-            var i = 0;
+            i = 0;
             while ( typeof result == "undefined" && i < chart_structure.results.length ) {
                 if ( roll <= chart_structure.results[i].value ) {
-                    result = { roll: [roll], result: chart_structure.results[i].result };
+                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[roll].subchart };
                 }
                 i++;
             }
 		} else if ( chart_structure.direction == ">=" ) {
-            var i = chart_structure.results.length - 1;
+            i = chart_structure.results.length - 1;
             while ( typeof result == "undefined" && i >= 0 ) {
                 if ( roll >= chart_structure.results[i].value ) {
-                    result = { roll: [roll], result: chart_structure.results[i].result };
+                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[roll].subchart };
                 }
                 i--;
             }
 		}
 
-
-
-		if ( typeof result == "undefined" ) {
-			result = { error: "undefined" };
-		}
-
 		return result;
 	}
+
 
     return {
 
@@ -237,6 +150,14 @@ var ChartHandler = function ( chart_structure, modifier ) {
 
         lookup: function ( roll ) {
 
+			// allow injection of the roll for unit testing
+			// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
+			if ( roll instanceof Array ) {
+				roll_temp = roll.shift();
+				roll_remainder = roll;
+				roll = roll_temp;
+			}
+
 			switch ( chart_structure.chart_type ) {
 
 				case "random":
@@ -253,6 +174,13 @@ var ChartHandler = function ( chart_structure, modifier ) {
 
 			}
 
+			if ( result.subchart !== undefined ) {
+				result = _applySubchart(result, result.subchart, roll_remainder);
+			}
+			if ( typeof result == "undefined" ) {
+				result = { error: "undefined" };
+			}
+
             return result;
 
         }
@@ -260,13 +188,17 @@ var ChartHandler = function ( chart_structure, modifier ) {
 }
 
 
+// build chart handler for each type of chart
+var charts = require('./charts')
+	, dieRoller = require('roll')
+	;
 
-exports.chartHandlers = function ( charts ) {
-	var chartHandlers = {};
-	for ( val in charts ) {
-		chartHandlers[val] = new ChartHandler(charts[val]);
+//var test = new ChartHandler(charts.gasGiantSize);
+//var result = test.setModifier(0).lookup(3);
+
+
+(function ( charts ) {
+	for ( var i in charts ) {
+		exports[i] = new ChartHandler(charts[i]);
 	}
-	return chartHandlers;
-}
-
-exports.dieRoller = new DieRoller(6);
+}(charts))

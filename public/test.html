@@ -11,45 +11,145 @@
 
 	<script src="/socket.io/socket.io.js"></script>
 
+	<script src="js/models/celestial_object.js"></script>
+	<script src="js/models/system.js"></script>
+
 </head>
 <body>
 
 
 <p>Test page</p>
 
+<div id="star">
+</div>
 
-<div class="star spectralA"></div>
-<div class="star spectralF"></div>
-<div class="star spectralG"></div>
-<div class="star spectralK"></div>
-<div class="star spectralM"></div>
+<ul id="planets">
 
 
+</ul>
 
-<script src="js/models/celestial_object.js"></script>
-<script src="js/models/system.js"></script>
+
+
 
 <script>
 
-var star = new Star({"spectralClass":"G2"});
+var system = {};
+
+$.get('numberofstars',step15_21A);
+
+
+function errorFunction (xhr, status, thrown)
+{
+	console.log('error', status, xhr, thrown);
+}
+
+function step15_21A (data)
+{
+	system = data;
+	$('#star').html(JSON.stringify(system));
+	$.ajax({
+		url: 'firstgasgiant',
+		data: system.primaryStar,
+		success: step21B,
+		error: errorFunction
+	});
+}
+
+function step21B (gasGiant)
+{
+	if ( gasGiant !== null ) {
+		system.primaryStar.orbitingChildren.push(gasGiant);
+	}
+
+	$.ajax({
+		url: 'placeplanetaryorbits',
+		data: system.primaryStar,
+		success: function(data){
+			step22(system.primaryStar,data);
+		},
+		error: errorFunction
+	});
+}
+
+function step22 (star, orbits)
+{
+	var planet;
+
+	star.orbitingChildren = [];
+	for ( var i = 0; i < orbits.length; i++ ) {
+		$('#planets').append(
+			$('<li>').attr('id','planet_'+i).html( JSON.stringify(orbits[i]) )
+		);
+		orbits[i].elementId = 'planet_'+i;
+		star.orbitingChildren.push(orbits[i]);
+	}
+	$('#star').html(JSON.stringify(system));
+
+	$.each(star.orbitingChildren, function(index,element){
+		$.ajax({
+			url: 'gasGiantPlacement',
+			data: {
+				orbit : element,
+				previous: star.orbitingChildren[index-1],
+				next: star.orbitingChildren[index+1],
+				snowLine: star.snowLine,
+				gasGiantArrangement: star.gasGiantArrangement
+			},
+			success: function(data){
+				step23A(element, index, data, star)
+			},
+			error: errorFunction
+		});
+	});
+}
+
+function step23A (element, index, orbit, star) {
+	$('#' + orbit.elementId).html( JSON.stringify(orbit) );
+
+	$.ajax({
+		url: 'remainingOrbits',
+		data: {
+			orbit : orbit,
+			previous: star.orbitingChildren[index-1],
+			next: star.orbitingChildren[index+1],
+			innerLimit: star.innerLimit,
+			outerLimit: star.outerLimit
+		},
+		success: function(data){
+			step23B(element, data, star)
+		},
+		error: errorFunction
+	});
 
 
 
-var system = new System({orbitingChildren: new OrbitingChildren});
-system.get("orbitingChildren").add(
-	[
-		new Planet({sizeClass: 'Small', orbitalRadius: 25}),
-		new Planet({sizeClass: 'Tiny', orbitalRadius: 10})
-	]
-);
-system.get("orbitingChildren").add(
-	[
-		new AsteroidBelt({orbitalRadius: 5})
-	]
-);
+}
 
+function step23B (element, orbit, star) {
+	if ( orbit.objectType === 'Empty Orbit' ) {
+		$('#' + orbit.elementId).remove();
+	} else {
+		$('#' + orbit.elementId).html( JSON.stringify(orbit) );
 
-console.log( system.get('orbitingChildren').at(0).constructor );
+		$.ajax({
+			url: 'placeMoons',
+			data: {
+				orbit : orbit,
+			},
+			success: function(data){
+				step24(element, data, star)
+			},
+			error: errorFunction
+		});
+
+	}
+
+}
+
+function step24 (element, orbit, star) {
+	$('#' + orbit.elementId).html( JSON.stringify(orbit) );
+
+}
 
 </script>
 

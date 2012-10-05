@@ -1,16 +1,21 @@
+// Extensions to basic javascript
+require('./extensions');
 
-/**
- * Module dependencies.
- */
+
+// Module dependencies
 
 var express = require('express')
     , routes = require('./routes')
     , socket = require('socket.io')
     , events = require('./events')
-    , charts = require('./charts')
-    , chartHandler = require('./dierollerandchart')
     , baseModelFactory = require('./models/baseModel')
+	, spaceCharts = require('./dierollerandchart')
+	, dieRoller = require('roll')
     ;
+global.spaceCharts = spaceCharts;
+global.dieRoller = dieRoller;
+
+
 
 var app = module.exports = express.createServer();
 var io = socket.listen(app);
@@ -37,7 +42,12 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.get('/numberofstars', routes.numberofstars);
+app.get('/numberofstars', routes.numberOfStars);
+app.get('/firstgasgiant', routes.firstGasGiant);
+app.get('/placeplanetaryorbits', routes.placePlanetaryOrbits);
+app.get('/gasGiantPlacement', routes.gasGiantPlacement);
+app.get('/remainingOrbits', routes.remainingOrbits);
+app.get('/placeMoons', routes.placeMoons);
 
 app.listen(8000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
@@ -45,16 +55,15 @@ app.listen(8000, function(){
 
 
 
-// set up chart handlers
-global.spaceCharts = chartHandler.chartHandlers(charts);
-global.dieRoller = chartHandler.dieRoller;
 
 events.testGlobal('message',events.testCallback);
 var foo = new baseModelFactory.baseModel();
-console.log(foo);
+//console.log(foo);
 
 
 
 
 
 io.sockets.on('connection', events.connection);
+
+

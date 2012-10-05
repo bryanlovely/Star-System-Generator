@@ -44,7 +44,6 @@ exports.systemType = {
     },
     "results": [
 		{
-			"min_roll": 3,
 			"max_roll": 10,
 			"result": {
 				"type": "single",
@@ -478,7 +477,7 @@ exports.stellarAge = {
 	"results": [
 		{
 			"result": { "Population": "Extreme Population I", "baseAge": 0, "stepA": 0, "stepB": 0 }, 
-			"rolls": [3]
+			"max_roll": 3
 		},
 		{
 			"result": { "Population": "Young Population I", "baseAge": 0.1, "stepA": 0.3, "stepB": 0.05 }, 
@@ -612,27 +611,27 @@ exports.orbitContents = {
     },
 	"results": [
 		{
-			"result": { "object": "Empty Orbit", "size": "" }, 
+			"result": { "objectType": "Empty Orbit" }, 
 			"max_roll": 3
 		},
 		{
-			"result": { "object": "Asteroid Belt", "size": "" }, 
+			"result": { "objectType": "Asteroid Belt" }, 
 			"rolls": [4,5,6]
 		},
 		{
-			"result": { "object": "Terrestrial Planet", "size": "Tiny" }, 
+			"result": { "objectType": "Terrestrial Planet", "sizeClass": "Tiny" }, 
 			"rolls": [7,8]
 		},
 		{
-			"result": { "object": "Terrestrial Planet", "size": "Small" }, 
+			"result": { "objectType": "Terrestrial Planet", "sizeClass": "Small" }, 
 			"rolls": [9,10,11]
 		},
 		{
-			"result": { "object": "Terrestrial Planet", "size": "Standard" }, 
+			"result": { "objectType": "Terrestrial Planet", "sizeClass": "Standard" }, 
 			"rolls": [12,13,14,15]
 		},
 		{
-			"result": { "object": "Terrestrial Planet", "size": "Large" }, 
+			"result": { "objectType": "Terrestrial Planet", "sizeClass": "Large" }, 
 			"min_roll": 16
 		}
 	]
@@ -679,6 +678,7 @@ exports.gasGiantSizeDetail = {
     },
 	"results": [
 		{
+			"result":"foo",
 			"subchart": {
 				"chart_type": "index",
 				"results": {
@@ -788,7 +788,7 @@ exports.marginalAtmosphere = {
         "modifier": 0
     },
 	"results": [
-		{ "result": "Chlorine or Fluorine", "rolls": [3,4] },
+		{ "result": "Chlorine or Fluorine", "max_roll": 4 },
 		{ "result": "Sulfur Compounds", "rolls": [5,6] },
 		{ "result": "Nitrogen Compounds", "rolls": [7] },
 		{ "result": "Organic Toxins", "rolls": [8,9] },
@@ -796,7 +796,7 @@ exports.marginalAtmosphere = {
 		{ "result": "Pollutants", "rolls": [12,13] },
 		{ "result": "High Carbon Dioxide", "rolls": [14] },
 		{ "result": "High Oxygen", "rolls": [15,16] },
-		{ "result": "Inert Gases", "rolls": [17,18] }
+		{ "result": "Inert Gases", "min_roll": 17 }
 	]
 };
 
@@ -876,8 +876,8 @@ exports.worldClass = {
             	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
-					{ "class": "Ice", "value": 140 },
-					{ "class": "Rock", "value": 1000000 }
+					{ "result": "Ice", "value": 140 },
+					{ "result": "Rock", "value": 1000000 }
                 ]
             }
 		},
@@ -886,9 +886,9 @@ exports.worldClass = {
             	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
-					{ "class": "Hadean", "value": 80 },
-					{ "class": "Ice", "value": 140 },
-					{ "class": "Rock", "value": 1000000 }
+					{ "result": "Hadean", "value": 80 },
+					{ "result": "Ice", "value": 140 },
+					{ "result": "Rock", "value": 1000000 }
                 ]
             }
 		},
@@ -897,13 +897,13 @@ exports.worldClass = {
             	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
-					{ "class": "Hadean", "value": 80 },
-					{ "class": "Ice", "value": 150 },
-					{ "class": "Ice/Ammonia", "value": 230 },
-					{ "class": "Ice", "value": 240 },
-					{ "class": "Ocean", "value": 320 },
-					{ "class": "Greenhouse", "value": 500 },
-					{ "class": "Chthonian", "value": 1000000 }
+					{ "result": "Hadean", "value": 80 },
+					{ "result": "Ice", "value": 150 },
+					{ "result": "Ice/Ammonia", "value": 230 },
+					{ "result": "Ice", "value": 240 },
+					{ "result": "Ocean", "value": 320 },
+					{ "result": "Greenhouse", "value": 500 },
+					{ "result": "Chthonian", "value": 1000000 }
                 ]
             }
 		},
@@ -912,13 +912,13 @@ exports.worldClass = {
             	"chart_type": "compare",
 				"direction": "<=",
                 "results": [
-					{ "class": "Hadean", "value": 80 },
-					{ "class": "Ice", "value": 150 },
-					{ "class": "Ice/Ammonia", "value": 230 },
-					{ "class": "Ice", "value": 240 },
-					{ "class": "Ocean", "value": 320 },
-					{ "class": "Greenhouse", "value": 500 },
-					{ "class": "Chthonian", "value": 1000000 }
+					{ "result": "Hadean", "value": 80 },
+					{ "result": "Ice", "value": 150 },
+					{ "result": "Ice/Ammonia", "value": 230 },
+					{ "result": "Ice", "value": 240 },
+					{ "result": "Ocean", "value": 320 },
+					{ "result": "Greenhouse", "value": 500 },
+					{ "result": "Chthonian", "value": 1000000 }
                 ]
             }
 		}
@@ -959,8 +959,8 @@ exports.worldFactors = {
 										"modifier": 0
 									},
 									"results": [
-										{ "max_roll": 15, "atmosphereComposition": "Suffocating, Mildly Toxic" },
-										{ "min_roll": 16, "atmosphereComposition": "Suffocating, Highly Toxic" }
+										{ "max_roll": 15, "result": "Suffocating, Mildly Toxic" },
+										{ "min_roll": 16, "result": "Suffocating, Highly Toxic" }
 									]
 								}
 							}
@@ -992,8 +992,8 @@ exports.worldFactors = {
 										"modifier": 0
 									},
 									"results": [
-										{ "max_roll": 12, "atmosphereComposition": "Suffocating" },
-										{ "min_roll": 13, "atmosphereComposition": "Suffocating, Mildly Toxic" }
+										{ "max_roll": 12, "result": "Suffocating" },
+										{ "min_roll": 13, "result": "Suffocating, Mildly Toxic" }
 									]
 								}
 							}
@@ -1015,8 +1015,8 @@ exports.worldFactors = {
 										"modifier": 0
 									},
 									"results": [
-										{ "max_roll": 11, "atmosphereComposition": "Normal" },
-										{ "min_roll": 12, "atmosphereComposition": "Marginal" }
+										{ "max_roll": 11, "result": "Normal" },
+										{ "min_roll": 12, "result": "Marginal" }
 									]
 								}
 							}
@@ -1038,8 +1038,8 @@ exports.worldFactors = {
 										"modifier": 0
 									},
 									"results": [
-										{ "max_roll": 12, "atmosphereComposition": "Suffocating" },
-										{ "min_roll": 16, "atmosphereComposition": "Suffocating, Mildly Toxic" }
+										{ "max_roll": 12, "result": "Suffocating" },
+										{ "min_roll": 16, "result": "Suffocating, Mildly Toxic" }
 									]
 								}
 							}
@@ -1073,8 +1073,8 @@ exports.worldFactors = {
 										"modifier": 0
 									},
 									"results": [
-										{ "max_roll": 11, "atmosphereComposition": "Normal" },
-										{ "min_roll": 12, "atmosphereComposition": "Marginal" }
+										{ "max_roll": 11, "result": { "result": "Normal" } },
+										{ "min_roll": 12, "result": { "result": "Marginal" } }
 									]
 								}
 							}
