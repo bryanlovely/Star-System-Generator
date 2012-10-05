@@ -11,6 +11,48 @@
 
 	<script src="/socket.io/socket.io.js"></script>
 
+	<style type="text/css">
+
+/* This is the animation code. */
+@-webkit-keyframes appearPop {
+    0% {-webkit-transform: scale(0);}
+    70% {-webkit-transform: scale(1.25);}
+    100% {-webkit-transform: scale(1);}
+}
+/* This is the element that we apply the animation to. */
+p.animatedDot {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    -webkit-animation: appearPop 0.25s linear; /* Safari and Chrome */
+    position: absolute;
+    top: 200px;
+    left: 200px;
+ }
+
+ p.animatedDot:hover {
+    width: 40px;
+    height: 40px;
+}
+
+div#scale {
+    height: 20px;
+    width: 910px;
+    border: 1px solid black;
+    border-top: none;
+    position: relative;
+    margin-left: 50px;
+}
+div#scale .mark {
+    height: 20px;
+    width: 1px;
+    border-left: 1px solid black;
+    position: absolute;
+    top: 0;
+}
+
+	</style>
+
 	<script src="js/models/celestial_object.js"></script>
 	<script src="js/models/system.js"></script>
 
@@ -24,11 +66,73 @@
 </div>
 
 <ul id="planets">
-
-
 </ul>
 
+<!--
+<div class="star spectralA"></div>
+<div class="star spectralF"></div>
+<div class="star spectralG"></div>
+<div class="star spectralK"></div>
+<div class="star spectralM"></div>
+-->
 
+<button id="go">Go</button>
+<div id="testarea"></div>
+<!--<p class="star spectralA animatedDot"></p>-->
+
+<div id="scale">
+</div>
+
+
+<script>
+    $('#go').on('click',function(){
+        var star = $('<p class="star spectralA animatedDot"></p>');
+        $('#testarea').html( star );
+    });
+
+var width = $('#scale').width(),
+    max_orbit = 450,
+    increment = 0.1,
+    k = 0,
+    q = 0,
+    count = 1;
+var scaler = new logScale(max_orbit,width);
+while ( k <= max_orbit ) {
+    if ( count >= 10 ) {
+        count = 1;
+        increment *= 10;
+    }
+    count++;
+    k = count * increment;
+    q = scaler.get(k);
+    if ( q >= 1 && q < width ) {
+        var marker = $('<div class="mark"></div>').css('left',q);
+        $('#scale').append(marker);
+    }
+}
+
+var star = $('<div></div>').addClass('star spectralK animatedDot');
+//$('#scale').append(star);
+//star.css({position: 'absolute', top: -star.height(), left: scaler.get(44)}).addClass('animatedDot');
+
+var star2 = $('<p></p>').addClass('star spectralK animatedDot').css({position: 'absolute', top: 0, left: scaler.get(44* 1.5 )});
+$('#scale').append(star2);
+
+
+function logScale ( max_orbit, width )
+{
+    var max_log = Math.log(max_orbit)/Math.LN10 + 1;
+    return {
+        get: function ( orbit ) {
+            console.log(max_log, width);
+            var orbit_log = 1 + Math.log(orbit)/Math.LN10;
+            var pos = (orbit_log/(max_log)) * width;
+            return pos;
+        }
+    }
+}
+
+</script>
 
 
 <script>
@@ -148,7 +252,6 @@ function step23B (element, orbit, star) {
 
 function step24 (element, orbit, star) {
 	$('#' + orbit.elementId).html( JSON.stringify(orbit) );
-
 }
 
 </script>
