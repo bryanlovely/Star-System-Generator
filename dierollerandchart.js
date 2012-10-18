@@ -114,7 +114,7 @@ var ChartHandler = function ( chart_structure ) {
             i = 0;
             while ( typeof result == "undefined" && i < chart_structure.results.length ) {
                 if ( roll <= chart_structure.results[i].value ) {
-                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[roll].subchart };
+                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[i].subchart };
                 }
                 i++;
             }
@@ -122,7 +122,7 @@ var ChartHandler = function ( chart_structure ) {
             i = chart_structure.results.length - 1;
             while ( typeof result == "undefined" && i >= 0 ) {
                 if ( roll >= chart_structure.results[i].value ) {
-                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[roll].subchart };
+                    result = { roll: [roll], result: chart_structure.results[i].result, subchart: chart_structure.results[i].subchart };
                 }
                 i--;
             }
@@ -149,6 +149,7 @@ var ChartHandler = function ( chart_structure ) {
         },
 
         lookup: function ( roll ) {
+        	var roll_temp, roll_remainder;
 
 			// allow injection of the roll for unit testing
 			// if injected roll is an array, strip off the first element and leave the rest to be passed on to subcharts
@@ -174,7 +175,7 @@ var ChartHandler = function ( chart_structure ) {
 
 			}
 
-			if ( result.subchart !== undefined ) {
+			if ( result.subchart !== undefined && (roll_remainder !== undefined || roll_remainder.length === 0) ) {
 				result = _applySubchart(result, result.subchart, roll_remainder);
 			}
 			if ( typeof result == "undefined" ) {

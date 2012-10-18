@@ -333,71 +333,51 @@ exports.placeMoons = function ( req, res ) {
 		roll,
 		key,
 		modifier,
-		result;
+		result,
+		sizeClasses = ["Large", "Standard", "Small", "Tiny"],
+		moonSize;
 
 	if ( orbit.objectType === "Gas Giant" ) {
-		modifier = '';
-		if ( orbit.orbitalRadius <= 1.5 ) {
-			modifier = '-3';
-		} else if ( orbit.orbitalRadius <= 0.75 ) {
-			modifier = '-6';
-		} else if ( orbit.orbitalRadius <= 0.5 ) {
-			modifier = '-8';
-		} else if ( orbit.orbitalRadius <= 0.1 ) {
-			modifier = '-10';
-		}
+
+		modifier = spaceCharts.moonSize.lookup(["Gas Giant","innerMoons",orbit.orbitalRadius]).result;
 		orbit.innerMoons = Math.max(0, dieRoller.roll('2d6'+modifier).result);
 
-		if ( orbit.orbitalRadius <= 1.5 ) {
-			modifier = '-1';
-		} else if ( orbit.orbitalRadius <= 0.75 ) {
-			modifier = '-4';
-		} else if ( orbit.orbitalRadius <= 0.5 ) {
-			modifier = '-5';
-		} else if ( orbit.orbitalRadius <= 0.1 ) {
-			modifier = '-7';
-		}
+		modifier = spaceCharts.moonSize.lookup(["Gas Giant","majorMoons",orbit.orbitalRadius]).result;
 		orbit.majorMoons = Math.max(0, dieRoller.roll('1d6'+modifier).result);
 
-		if ( orbit.orbitalRadius <= 3.0 ) {
-			modifier = '-1';
-		} else if ( orbit.orbitalRadius <= 1.5 ) {
-			modifier = '-4';
-		} else if ( orbit.orbitalRadius <= 0.75 ) {
-			modifier = '-5';
-		} else if ( orbit.orbitalRadius <= 0.5 ) {
-			modifier = '-7';
-		}
+		modifier = spaceCharts.moonSize.lookup(["Gas Giant","outerMoons",orbit.orbitalRadius]).result;
 		orbit.outerMoons = Math.max(0, dieRoller.roll('1d6'+modifier).result);
 
-		if ( orbit.innerMoons >= 10 ) {
-			orbit.ring = "Spectacular";
-		} else if ( orbit.innerMoons >= 6 ) {
-			orbit.ring = "Visible";
-		}
+		orbit.ring = spaceCharts.moonSize.lookup(["Gas Giant","ringSize",orbit.innerMoons]).result;
 
 	} else if ( orbit.objectType === "Terrestrial Planet" ) {
 
-		modifier = 0;
-		if ( orbit.orbitalRadius <= 1.5 ) {
-			modifier += -1;
-		} else if ( orbit.orbitalRadius <= 0.75 ) {
-			modifier += -3;
-		} else if ( orbit.orbitalRadius <= 0.5 ) {
-			modifier += -6;
-		}
-		switch ( orbit.sizeClass ) {
-			case "Large":
-				modifier += 1;
-				break;
-			case "Tiny":
-				modifier += -1;
-				break;
-		}
+		modifier = spaceCharts.moonSize.lookup(["Terrestrial Planet","moons",orbit.orbitalRadius]).result +
+						spaceCharts.moonSize.lookup(["Terrestrial Planet","sizeModifier",orbit.sizeClass]).result;
 		orbit.majorMoons = Math.max(0, dieRoller.roll('1d6' + (modifier - 4)).result);
 		if ( orbit.majorMoons === 0 ) {
 			orbit.moonlets = Math.max(0, dieRoller.roll('1d6' + (modifier - 2)).result);
 		}
+
+	}
+
+	if ( orbit.majorMoons ) {
+		orbit.orbitalChildren = [];
+		console.log(orbit.orbitalRadius,orbit.objectType=="Gas Giant"?"Gas Giant":orbit.sizeClass);
+		for ( i = 0; i < orbit.majorMoons; i++ ) {
+			orbit.orbitalChildren.push({
+				elementId: orbit.elementId + "_" + i,
+				objectType: "Terrestrial Planet",
+				sizeClass: sizeClasses[
+					Math.min(
+						sizeClasses.length-1,
+						sizeClasses.indexOf( orbit.objectType === "Gas Giant" ? "Large" : orbit.sizeClass ) +
+							spaceCharts.moonSize.lookup(["sizeClassModifier","*"]).result
+					)
+				]
+			});
+		}
+		console.log(orbit);
 	}
 
 

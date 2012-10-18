@@ -1099,3 +1099,113 @@ exports.temperatureFactorsGardenOceanWorlds = {
 		{ "result": 0.84, "value": 100 }
 	]
 };
+
+
+
+exports.moonSize = {
+	"chart_type": "index",
+	"results": {
+		"Gas Giant": {
+			"subchart": {
+				"chart_type": "index",
+				"results": {
+					"innerMoons": {
+						"subchart": {
+							"chart_type": "compare",
+							"direction": "<=",
+							"results": [
+								{ "result": "-10", "value": 0.1 },
+								{ "result": "-8", "value": 0.5 },
+								{ "result": "-6", "value": 0.75 },
+								{ "result": "-3", "value": 1.5 },
+								{ "result": "+0", "value": 10000000 }
+							]
+						}
+					},
+					"majorMoons": {
+						"subchart": {
+							"chart_type": "compare",
+							"direction": "<=",
+							"results": [
+								{ "result": "-7", "value": 0.1 },
+								{ "result": "-5", "value": 0.5 },
+								{ "result": "-4", "value": 0.75 },
+								{ "result": "-1", "value": 1.5 },
+								{ "result": "+0", "value": 10000000 }
+							]
+						}
+					},
+					"outerMoons": {
+						"subchart": {
+							"chart_type": "compare",
+							"direction": "<=",
+							"results": [
+								{ "result": "-7", "value": 0.5 },
+								{ "result": "-5", "value": 0.75 },
+								{ "result": "-4", "value": 1.5 },
+								{ "result": "-1", "value": 3 },
+								{ "result": "+0", "value": 10000000 }
+							]
+						}
+					},
+					"ringSize": {
+						"subchart": {
+							"chart_type": "compare",
+							"direction": ">=",
+							"results": [
+								{ "result": "None", "value": 0 },
+								{ "result": "Visible", "value": 6 },
+								{ "result": "Spectacular", "value": 10 }
+							]
+						}
+					}
+				}
+			}
+		},
+		"Terrestrial Planet": {
+			"subchart": {
+				"chart_type": "index",
+				"results": {
+					"moons": {
+						"subchart": {
+							"chart_type": "compare",
+							"direction": "<=",
+							"results": [
+								{ "result": -6, "value": 0.5 },
+								{ "result": -3, "value": 0.75 },
+								{ "result": -1, "value": 1.5 },
+								{ "result": 0, "value": 10000000 }
+							]
+						}
+					},
+					"sizeModifier": {
+						"subchart": {
+							"chart_type": "index",
+							"results": {
+								"Large": { "result": 1 },
+								"Standard": { "result": 0 },
+								"Small": { "result": 0 },
+								"Tiny": { "result": -1 }
+							}
+						}
+					}
+				}
+			}
+		},
+		"sizeClassModifier": {
+			"subchart": {
+				"chart_type": "random",
+				"throw": {
+					"die_sides": 6,
+					"number_of_dice": 3,
+					"modifier": 0
+				},
+				"results": [
+					{ "max_roll": 11, "result": 3 },
+					{ "rolls": [12,13,14], "result": 2 },
+					{ "min_roll": 15, "result": 1 }
+				]
+			}
+		}
+	}
+};
